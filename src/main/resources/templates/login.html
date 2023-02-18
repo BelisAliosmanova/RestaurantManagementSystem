@@ -21,18 +21,24 @@
                 </div>
                 <div class="p-4">
                     <div class="input-group mb-3">
-            <input type="text" class="form-control" id="username" name="username" placeholder="username" required>
-        </div>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="username" required>
+                    </div>
                     <div class="input-group mb-3">
-            <input type="password" class="form-control" id="password" name="password" placeholder="password" required>
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Login</button>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="password" required>
+                    </div>
+                    <div class="d-grid col-12 mx-auto">
+                        <br>
+                        <button type="submit" class="btn btn-success">Login</button><br>
+                        <button href = "/menu" class="btn btn-primary">Back</button>
+                        <a th:href="@{/register}">You don't have an account? Register!</a>
+                    </div>
+                    </p>
                 </div>
             </div>
-        <div class="col-md-4 d-sm-none d-md-block">
-            <img src="/pictures/pc7.jpg"
-                 class="d-block w-100 img-fluid" alt="image">
-        </div>
+            <div class="col-md-4 d-sm-none d-md-block">
+                <img src="/pictures/pc7.jpg"
+                     class="d-block w-100 img-fluid" alt="image">
+            </div>
         </div>
         </div>
     </form>

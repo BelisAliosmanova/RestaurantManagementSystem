@@ -53,7 +53,8 @@ public class WebSecurityConfigStaff extends WebSecurityConfigurerAdapter {
                 .mvcMatchers("/homePageWaiter")
                 .hasAnyAuthority("WAITER")
                 .and()
-                //"/loginPage"
+                //"/login"
+
                 .formLogin().loginPage("/login").permitAll()
                 .successHandler(successHandler()).permitAll()
                 .and()

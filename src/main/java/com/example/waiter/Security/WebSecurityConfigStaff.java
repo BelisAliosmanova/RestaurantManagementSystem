@@ -54,7 +54,7 @@ public class WebSecurityConfigStaff extends WebSecurityConfigurerAdapter {
                 .hasAnyAuthority("WAITER")
                 .and()
                 //"/loginPage"
-                .formLogin()
+                .formLogin().loginPage("/login").permitAll()
                 .successHandler(successHandler()).permitAll()
                 .and()
                 .logout().logoutSuccessUrl("/menu").permitAll();

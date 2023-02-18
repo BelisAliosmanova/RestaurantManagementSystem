@@ -17,9 +17,9 @@ public class MenuController {
     public String homePageCook() {
         return "/homePageCook";
     }
-    @GetMapping("/loginPage")
+    @GetMapping("/login")
     public String loginPage() {
-        return "/loginPage";
+        return "/login";
     }
 
 }

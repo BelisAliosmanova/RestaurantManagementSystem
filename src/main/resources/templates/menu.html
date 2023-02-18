@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Restaurant Pearl</title>
     <meta charset="utf-8">
@@ -56,7 +56,7 @@
     <p><em>You can register or login as a waiter or as a cook and do some work</em></p>
 
     <a href = "/register">Register</a>
-    <a href = "/login">Login</a>
+    <a th:href = "@{/login}">Login</a>
     <br><br>
     <div class="row">
         <div class="col-sm-4">

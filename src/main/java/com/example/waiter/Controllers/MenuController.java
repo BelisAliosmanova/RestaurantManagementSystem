@@ -9,10 +9,10 @@ public class MenuController {
     public String menu() {
         return "/menu";
     }
-//    @GetMapping("/homePageWaiter")
-//    public String homePageWaiter() {
-//        return "/homePageWaiter";
-//    }
+    @GetMapping("/homePageWaiter")
+    public String homePageWaiter() {
+        return "/homePageWaiter";
+    }
     @GetMapping("/homePageCook")
     public String homePageCook() {
         return "/homePageCook";

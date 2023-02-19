@@ -1,8 +1,11 @@
 package com.example.waiter.Controllers;
 
 import com.example.waiter.Entities.Staff;
+import com.example.waiter.Enums.Role;
 import com.example.waiter.Repositories.StaffRepository;
+import com.example.waiter.Services.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,31 +19,21 @@ import javax.validation.Valid;
 @Controller
 public class StaffController {
     @Autowired
-    StaffRepository staffRepository;
+    StaffService staffService;
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("staff", new Staff());
         return "/register";
     }
+
     @PostMapping("/process_register")
     public ModelAndView processRegister(@Valid Staff staff, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+        boolean result = staffService.processRegister(staff, bindingResult);
+        if(!result){
             return new ModelAndView("/register");
         } else {
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String encodedPassword = passwordEncoder.encode(staff.getPassword());
-            staff.setEnabled(true);
-            staff.setPassword(encodedPassword);
-            if (staff.getRole() != null) {
-                if (staff.getRole().equals("WAITER") || staff.getRole().equals("COOK")) {
-                    staffRepository.save(staff);
-                } else {
-                    return new ModelAndView("/register");
-                }
-                return new ModelAndView("redirect:/menu");
-            }
+            return new ModelAndView("redirect:/menu");
         }
-        return new ModelAndView("redirect:/menu");
     }
 }

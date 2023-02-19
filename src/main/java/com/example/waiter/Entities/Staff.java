@@ -1,15 +1,8 @@
 package com.example.waiter.Entities;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
+import com.example.waiter.Enums.Role;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Staff {
@@ -19,7 +12,8 @@ public class Staff {
     private Long id;
     private String username;
     private String password;
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     private boolean enabled;
 
     public Long getId() {
@@ -46,11 +40,11 @@ public class Staff {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

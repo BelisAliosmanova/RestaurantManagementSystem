@@ -25,15 +25,22 @@ public class StaffController {
     }
     @PostMapping("/process_register")
     public ModelAndView processRegister(@Valid Staff staff, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return new ModelAndView("/register");
-        } else{
+        } else {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String encodedPassword = passwordEncoder.encode(staff.getPassword());
             staff.setEnabled(true);
             staff.setPassword(encodedPassword);
-            staffRepository.save(staff);
-            return new ModelAndView("redirect:/menu");
+            if (staff.getRole() != null) {
+                if (staff.getRole().equals("WAITER") || staff.getRole().equals("COOK")) {
+                    staffRepository.save(staff);
+                } else {
+                    return new ModelAndView("/register");
+                }
+                return new ModelAndView("redirect:/menu");
+            }
         }
+        return new ModelAndView("redirect:/menu");
     }
 }

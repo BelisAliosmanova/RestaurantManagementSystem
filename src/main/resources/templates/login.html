@@ -21,15 +21,16 @@
                 </div>
                 <div class="p-4">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="username" name="username" placeholder="username" required>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="username">
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="password" required>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="password">
                     </div>
                     <div class="d-grid col-12 mx-auto">
                         <br>
                         <button type="submit" class="btn btn-success">Login</button><br>
-                        <button href = "/menu" class="btn btn-primary">Back</button>
+                        <button type="reset" class="btn btn-primary">Reset</button>
+                        <a th:href="@{/menu}">Back to menu!</a><br>
                         <a th:href="@{/register}">You don't have an account? Register!</a>
                     </div>
                     </p>

@@ -1,5 +1,7 @@
 package com.example.waiter.Entities;
 
+import com.example.waiter.Enums.DishType;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,7 +12,8 @@ public class Dish {
     @Column(name = "id", nullable = false)
     private Long id;
     private String name;
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private DishType type;
     private String ingredients;
     private double price;
 
@@ -38,11 +41,11 @@ public class Dish {
         this.name = name;
     }
 
-    public String getType() {
+    public DishType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(DishType type) {
         this.type = type;
     }
 

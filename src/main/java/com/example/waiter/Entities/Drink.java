@@ -1,14 +1,14 @@
 package com.example.waiter.Entities;
 
 import com.example.waiter.Enums.DishType;
+import com.example.waiter.Enums.DrinkType;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 @Entity
-public class Dish {
+public class Drink {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -18,28 +18,17 @@ public class Dish {
     private String name;
     @Enumerated(EnumType.STRING)
     @NotNull
-    private DishType type;
-    @NotNull
-    @Size(min=3, max=50)
-    private String ingredients;
+    private DrinkType type;
     @NotNull
     @Min(1)
     private double price;
 
-    public String getIngredients() {
-        return ingredients;
+    public Long getId() {
+        return id;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setIngredients(String ingredients) {
-        this.ingredients = ingredients;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -50,19 +39,20 @@ public class Dish {
         this.name = name;
     }
 
-    public DishType getType() {
+    public DrinkType getType() {
         return type;
     }
 
-    public void setType(DishType type) {
+    public void setType(DrinkType type) {
         this.type = type;
     }
 
-    public Long getId() {
-        return id;
+
+    public double getPrice() {
+        return price;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

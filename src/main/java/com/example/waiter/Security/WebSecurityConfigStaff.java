@@ -50,7 +50,7 @@ public class WebSecurityConfigStaff extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .mvcMatchers("/homePageCook")
                 .hasAnyAuthority("COOK")
-                .mvcMatchers("/homePageWaiter", "/addDish", "/addDrink")
+                .mvcMatchers("/homePageWaiter", "/addDish", "/addDrink", "/restaurantMenu")
                 .hasAnyAuthority("WAITER")
                 .and()
                 .formLogin().loginPage("/login").permitAll()

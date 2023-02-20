@@ -25,12 +25,12 @@
                         <input type="text" th:field="*{name}" class="form-control" placeholder="name">
                     </div>
                     <form class="form-control">
-                        <select class="form-control" id="inlineFormCustomSelectPref">
+                        <select class="form-control" th:field="*{type}" id="inlineFormCustomSelectPref">
                             <option value = null>***Choose Dish Type***</option>
-                            <option value="Soup">Soup</option>
-                            <option value="Grill">Grill</option>
-                            <option value="Dessert">Dessert</option>
-                            <option value="Salad">Salad</option>
+                            <option value="SOUP">Soup</option>
+                            <option value="GRILL">Grill</option>
+                            <option value="DESSERT">Dessert</option>
+                            <option value="SALAD">Salad</option>
                         </select>
                     </form><br>
                     <div class="input-group mb-3">

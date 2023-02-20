@@ -3,6 +3,8 @@ package com.example.waiter.Entities;
 import com.example.waiter.Enums.Role;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Staff {
@@ -10,10 +12,17 @@ public class Staff {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+    @NotNull
+    @Size(min=5, max=50)
     private String username;
+    @NotNull
+    @Size(min=5, max=50)
+    @Pattern(regexp=".*[a-zA-Z].*")
     private String password;
     @Enumerated(EnumType.STRING)
+    @NotNull
     private Role role;
+    @NotNull
     private boolean enabled;
 
     public Long getId() {

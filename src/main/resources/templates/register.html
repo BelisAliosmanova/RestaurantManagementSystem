@@ -23,17 +23,21 @@
         </div>
         <div class="p-4">
           <div class="input-group mb-3">
-            <input type="text" th:field="*{username}" class="form-control" placeholder="username">
+            <input type="text" th:field="*{username}" class="form-control" placeholder="username" required><p style="color:red">*</p>
           </div>
+          <span th:if = "${#fields.hasErrors('username')}" th:errors = "*{username}" style = "color:red">At least 5 characters. Max 50 characters.</span>
           <div class="input-group mb-3">
-            <input type="password" th:field="*{password}" class="form-control" placeholder="password">
+            <input type="password" th:field="*{password}" class="form-control" placeholder="password" required><p style="color:red">*</p>
           </div>
+          <span th:if = "${#fields.hasErrors('password')}" th:errors = "*{password}" style = "color:red">At least 1 letter!</span>
           <div class="form-group">
             <div class="form-check">
-              <input type="radio" name="role" value=WAITER> Waiter
+              <input type="radio" name="role" value=WAITER> Waiter<br>
+              <span th:if = "${#fields.hasErrors('role')}" th:errors = "*{role}" style = "color:red"></span>
             </div>
             <div class="form-check">
-              <input type="radio" name="role" value=COOK> Cook
+              <input type="radio" name="role" value=COOK> Cook<br>
+              <span th:if = "${#fields.hasErrors('role')}" th:errors = "*{role}" style = "color:red"></span>
             </div>
           </div>
           <div class="d-grid col-12 mx-auto">

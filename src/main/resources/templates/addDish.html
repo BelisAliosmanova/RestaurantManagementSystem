@@ -21,25 +21,32 @@
                     <h3 class="text-primary">ADD DISH TO MENU</h3>
                 </div>
                 <div class="p-4">
+                    <label>Name: </label>
                     <div class="input-group mb-3">
-                        <input type="text" th:field="*{name}" class="form-control" placeholder="name">
+                        <input type="text" th:field="*{name}" class="form-control" required>
                     </div>
+                    <span th:if = "${#fields.hasErrors('name')}" th:errors = "*{name}" style = "color:red"></span>
+                    <label>Choose Dish Type:</label>
                     <form class="form-control">
-                        <select class="form-control" th:field="*{type}" id="inlineFormCustomSelectPref">
-                            <option value = null>***Choose Dish Type***</option>
+                        <select class="form-control" th:field="*{type}" id="inlineFormCustomSelectPref" required>
+                            <option value = ""></option>
                             <option value="SOUP">Soup</option>
                             <option value="GRILL">Grill</option>
                             <option value="DESSERT">Dessert</option>
                             <option value="SALAD">Salad</option>
                         </select>
+                        <span th:if = "${#fields.hasErrors('type')}" th:errors = "*{type}" style = "color:red"></span>
                     </form><br>
+                    <label>Ingredients: </label>
                     <div class="input-group mb-3">
-                        <input type="text" th:field="*{ingredients}" class="form-control" placeholder="ingredients">
+                        <input type="text" th:field="*{ingredients}" class="form-control" required>
                     </div>
+                    <span th:if = "${#fields.hasErrors('ingredients')}" th:errors = "*{ingredients}" style = "color:red"></span>
+                    <label>Price: </label>
                     <div class="input-group mb-3">
-                        <input type="number" step="any" th:field="*{price}" class="form-control" placeholder="price">
+                        <input type="number" step="any" th:field="*{price}" class="form-control" required>
                     </div>
-
+                    <span th:if = "${#fields.hasErrors('price')}" th:errors = "*{price}" style = "color:red"></span>
                     <div class="d-grid col-12 mx-auto">
                         <br>
                         <button type="submit" class="btn btn-success">Submit</button><br>

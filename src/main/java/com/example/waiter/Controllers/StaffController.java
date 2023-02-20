@@ -46,4 +46,11 @@ public class StaffController {
         model.addAttribute("username", username);
         return "/homePageWaiter";
     }
+    @GetMapping("/homePageCook")
+    public String homePageCook(Model model) {
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        model.addAttribute("username", username);
+        return "/homePageCook";
+    }
 }

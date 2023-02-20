@@ -1,23 +1,21 @@
 package com.example.waiter.Controllers;
 
 import com.example.waiter.Entities.Staff;
-import com.example.waiter.Enums.Role;
 import com.example.waiter.Repositories.StaffRepository;
+import com.example.waiter.Security.MyStaffDetails;
 import com.example.waiter.Services.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.net.Authenticator;
+import java.security.Principal;
 
 @Controller
 public class StaffController {
@@ -37,15 +35,15 @@ public class StaffController {
         if(!result){
             return new ModelAndView("/register");
         } else {
-//            Authentication auto= SecurityContextHolder.getContext().getAuthentication();
-//            Staff staff1=staffRepository.getStaffByUsername(auto.getName());
-//            System.out.println( staff1);
-                      return new ModelAndView("redirect:/menu");
+            return new ModelAndView("redirect:/menu");
         }
 
     }
     @GetMapping("/homePageWaiter")
-    public String homePageWaiter() {
-               return "/homePageWaiter";
+    public String homePageWaiter(Model model) {
+        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        model.addAttribute("username", username);
+        return "/homePageWaiter";
     }
 }

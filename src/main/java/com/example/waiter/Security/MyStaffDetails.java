@@ -28,7 +28,7 @@ public class MyStaffDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return staff.getUsername();
     }
 
     @Override

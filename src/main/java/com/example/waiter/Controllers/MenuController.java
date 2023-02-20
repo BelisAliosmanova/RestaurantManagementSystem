@@ -1,5 +1,7 @@
 package com.example.waiter.Controllers;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -12,6 +14,9 @@ public class MenuController {
 
     @GetMapping("/homePageCook")
     public String homePageCook() {
+//        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+//        String username = auth.getName();
+//        System.out.println("username"+ username);
         return "/homePageCook";
     }
     @GetMapping("/login")

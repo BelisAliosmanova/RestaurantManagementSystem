@@ -12,13 +12,7 @@ public class MenuController {
         return "/menu";
     }
 
-    @GetMapping("/homePageCook")
-    public String homePageCook() {
-//        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
-//        String username = auth.getName();
-//        System.out.println("username"+ username);
-        return "/homePageCook";
-    }
+
     @GetMapping("/login")
     public String loginPage() {
         return "/login";

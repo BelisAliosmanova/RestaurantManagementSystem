@@ -10,22 +10,22 @@
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <title>Edit Dish</title>
+    <title>Edit Drink</title>
 </head>
 <body>
-<h1 align="center">Edit Dish</h1>
-<span th:if="${dish == 'Error!'}">Error!-->
+<h1 align="center">Edit Drink</h1>
+<span th:if="${drink == 'Error!'}">Error!-->
         <span th:text="${errorMsg}"></span>
       </span>
-<span th:unless="${dish == 'Error!'}">
-    <form action="#" th:action="@{/updateDish}" method="post" th:object="${dish}">
+<span th:unless="${drink == 'Error!'}">
+    <form action="#" th:action="@{/updateDrink}" method="post" th:object="${drink}">
         <div class="form-group">
             <input type="hidden" th:field="*{id}">
             <div class="container-fluid vh-100" style="margin-top:100px">
         <div class="rounded d-flex justify-content-center">
             <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
                 <div class="text-center">
-                    <h3 class="text-primary">EDIT DISH</h3>
+                    <h3 class="text-primary">EDIT DRINK</h3>
                 </div>
                 <div class="p-4">
                     <label>Name: </label>
@@ -33,22 +33,16 @@
                         <input type="text" th:field="*{name}" class="form-control" required>
                     </div>
                     <span th:if = "${#fields.hasErrors('name')}" th:errors = "*{name}" style = "color:red"></span>
-                    <label>Choose Dish Type:</label>
+                    <label>Choose Drink Type:</label>
                     <form class="form-control">
                         <select class="form-control" th:field="*{type}" id="inlineFormCustomSelectPref" required>
                             <option value = ""></option>
-                            <option value="SOUP">Soup</option>
-                            <option value="GRILL">Grill</option>
-                            <option value="DESSERT">Dessert</option>
-                            <option value="SALAD">Salad</option>
+                            <option value="SOFT">Soft</option>
+                            <option value="ALCOHOLIC">Alcoholic</option>
+                            <option value="HOT">Hot</option>
                         </select>
                         <span th:if = "${#fields.hasErrors('type')}" th:errors = "*{type}" style = "color:red"></span>
                     </form><br>
-                    <label>Ingredients: </label>
-                    <div class="input-group mb-3">
-                        <input type="text" th:field="*{ingredients}" class="form-control" required>
-                    </div>
-                    <span th:if = "${#fields.hasErrors('ingredients')}" th:errors = "*{ingredients}" style = "color:red"></span>
                     <label>Price: </label>
                     <div class="input-group mb-3">
                         <input type="number" step="any" th:field="*{price}" class="form-control" required>

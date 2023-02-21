@@ -29,12 +29,6 @@ public class DishController {
             return new ModelAndView("redirect:/homePageWaiter");
         }
     }
-    @GetMapping("/restaurantMenu")
-    public String getAllDishes(Model model){
-        Iterable<Dish> allDishes = dishRepository.findAll();
-        model.addAttribute("allDishes", allDishes);
-        return "/restaurantMenu";
-    }
 
     @GetMapping("/addDish")
     public String addDish(Model model) {

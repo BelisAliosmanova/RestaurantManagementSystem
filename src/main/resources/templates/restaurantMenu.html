@@ -2,18 +2,45 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:iteration="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/waiter.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Restaurant Menu</title>
-
 </head>
 <body>
-<h1 align="center">All Dishes</h1>
+<div class="menu-container">
+
+    <input type="checkbox" id="openmenu" class="hamburger-checkbox">
+
+    <div class="hamburger-icon">
+        <label for="openmenu" id="hamburger-label">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+    </div>
+    <div class="menu-pane">
+        <nav>
+            <ul class="menu-links">
+                <li><a href="/restaurantMenu">RESTAURANT MENU</a></li>
+                <li><a href="/addDish">ADD DISH TO MENU</a></li>
+                <li><a href="/addDrink">ADD DRINK TO MENU</a></li>
+                <li><a href="#band">ACTIVE ORDERS</a></li>
+                <li><a href="#tour">TAKE AN ORDER</a></li>
+                <li><a href="#contact">REFERENCE</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
 <div class = "fr">
 <table class = "table table-bordered">
     <thead>
+    <tr class="text-center">
+        <td colspan="6" style="align:center"><h1>DISHES</h1></td>
+    </tr>
     <tr>
         <th>name</th>
         <th>type</th>
@@ -85,6 +112,63 @@
     </tr>
     </tbody>
 </table>
+    <table class = "table table-bordered">
+        <thead>
+        <tr class="text-center">
+            <td colspan="5" style="align:center"><h1>DRINKS</h1></td>
+        </tr>
+        <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>price</th>
+            <th>Update/Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="text-center">
+            <td colspan="5" style="align:center"><h4>SOFT DRINKS</h4></td>
+        </tr>
+        <tr th:each="drink : ${allDrinks}" th:if="${drink.type == T(com.example.waiter.Enums.DrinkType).SOFT}">
+            <td th:text = "${drink.name}"></td>
+            <td th:text = "${drink.type}"></td>
+            <td th:text = "${drink.price}"></td>
+            <td>
+                <a th:href="@{/editDrink/{drinkId}(drinkId=${drink.id})}">Update</a>
+                <form th:action="@{deleteDrink/{drinkId}(drinkId=${drink.id})}" method="post">
+                    <button type="submit" class="btn btn-default">Delete</button>
+                </form>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td colspan="5"><h4>ALCOHOLIC DRINK</h4></td>
+        </tr>
+        <tr th:each="drink : ${allDrinks}" th:if="${drink.type == T(com.example.waiter.Enums.DrinkType).ALCOHOLIC}">
+            <td th:text = "${drink.name}"></td>
+            <td th:text = "${drink.type}"></td>
+            <td th:text = "${drink.price}"></td>
+            <td>
+                <a th:href="@{/editDrink/{drinkId}(drinkId=${drink.id})}">Update</a>
+                <form th:action="@{deleteDrink/{drinkId}(drinkId=${drink.id})}" method="post">
+                    <button type="submit" class="btn btn-default">Delete</button>
+                </form>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td colspan="5"><h4>HOT DRINK</h4></td>
+        </tr>
+        <tr th:each="drink : ${allDrinks}" th:if="${drink.type == T(com.example.waiter.Enums.DrinkType).HOT}">
+            <td th:text = "${drink.name}"></td>
+            <td th:text = "${drink.type}"></td>
+            <td th:text = "${drink.price}"></td>
+            <td>
+                <a th:href="@{/editDrink/{drinkId}(drinkId=${drink.id})}">Update</a>
+                <form th:action="@{deleteDrink/{drinkId}(drinkId=${drink.id})}" method="post">
+                    <button type="submit" class="btn btn-default">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
@@ -93,4 +177,11 @@ div.fr {
 width: 1000px;
 margin: auto;
 }
+body  {
+  background-image: url("https://www.spoon-restaurant.com/wp-content/uploads/2022/06/Spoon_cLe_Bonbon-1-1691x1080.jpg");
+  background-color: #cccccc;
+}
+table {
+        background-color: white;
+        }
 </style>

@@ -23,7 +23,23 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="dish : ${allDishes}">
+
+    <tr th:each="dish : ${allDishes}" th:if="${dish.type == 'Salad'}">
+
+            <td th:text = "${dish.id}"></td>
+                <td th:text = "${dish.name}"></td>
+                <td th:text = "${dish.type}"></td>
+                <td th:text = "${dish.ingredients}"></td>
+                <td th:text = "${dish.price}"></td>
+                <td>
+                    <a th:href="@{/editDish/{dishId}(dishId=${dish.id})}">Update</a>
+                    <form th:action="@{deleteDish/{dishId}(dishId=${dish.id})}" method="post">
+                     <button type="submit" class="btn btn-default">Delete</button>
+                    </form>
+                </td>
+    </tr>
+    <tr th:each="dish : ${allDishes}" th:if="${dish.type == 'SOUP'}">
+
         <td th:text = "${dish.id}"></td>
         <td th:text = "${dish.name}"></td>
         <td th:text = "${dish.type}"></td>

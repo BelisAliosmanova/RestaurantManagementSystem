@@ -1,6 +1,7 @@
 package com.example.waiter.Entities;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 @Entity
 public class OrderDetails {
@@ -10,13 +11,13 @@ public class OrderDetails {
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Long orderId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dish_id")
-    private Dish dish;
+    private Long dishId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drink_id")
-    private Drink drink;
+    private Long drinkId;
 
     public Long getId() {
         return id;
@@ -26,27 +27,27 @@ public class OrderDetails {
         this.id = id;
     }
 
-    public Order getOrder() {
-        return order;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
-    public Dish getDish() {
-        return dish;
+    public Long getDishId() {
+        return dishId;
     }
 
-    public void setDish(Dish dish) {
-        this.dish = dish;
+    public void setDishId(Long dishId) {
+        this.dishId = dishId;
     }
 
-    public Drink getDrink() {
-        return drink;
+    public Long getDrinkId() {
+        return drinkId;
     }
 
-    public void setDrink(Drink drink) {
-        this.drink = drink;
+    public void setDrinkId(Long drinkId) {
+        this.drinkId = drinkId;
     }
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add dish</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+          crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+</head>
+<body>
+<form action="#" th:action="@{/orderSubmit}" th:object="${order}" method="post">
+  <div class="container-fluid vh-100" style="margin-top:100px">
+    <div class="rounded d-flex justify-content-center">
+      <div class="col-md-4 col-sm-12 shadow-lg p-5 bg-light">
+        <div class="text-center">
+          <h3 class="text-primary">ADD ORDER - 1</h3>
+        </div>
+        <div class="p-4">
+          <label>Date: </label>
+          <div class="input-group mb-3">
+            <input type="date" th:field="*{orderDate}" class="form-control" required>
+          </div>
+          <span th:if = "${#fields.hasErrors('orderDate')}" th:errors = "*{orderDate}" style = "color:red"></span>
+          <label>Table number: </label>
+          <div class="input-group mb-3">
+            <input type="text" th:field="*{tableNum}" class="form-control" required>
+          </div>
+          <span th:if = "${#fields.hasErrors('tableNum')}" th:errors = "*{tableNum}" style = "color:red"></span>
+          <div class="d-grid col-12 mx-auto">
+            <br>
+            <button type="submit" class="btn btn-success">Next step</button><br>
+            <button type="reset" class="btn btn-primary">Reset</button>
+            <a th:href="@{/homePageWaiter}">Back!</a><br>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 d-sm-none d-md-block">
+        <img src="/pictures/pc8.jpg"
+             class="d-block w-100 img-fluid" alt="image">
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+</div>
+</body>
+</html>
+
+<style>
+body  {
+  background-image: url("https://www.spoon-restaurant.com/wp-content/uploads/2022/06/Spoon_cLe_Bonbon-1-1691x1080.jpg");
+  background-color: #cccccc;
+}
+</style>

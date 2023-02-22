@@ -1,4 +1,4 @@
-package com.example.waiter.Entities;
+package com.example.waiter.Enums;
 
 public enum OrderStatus {
     ACTIVE,

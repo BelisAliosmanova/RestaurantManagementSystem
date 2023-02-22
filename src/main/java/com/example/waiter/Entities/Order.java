@@ -1,25 +1,29 @@
 package com.example.waiter.Entities;
 
+import com.example.waiter.Enums.OrderStatus;
+import net.bytebuddy.implementation.bind.annotation.Default;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
 
 @Entity
+@Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
-    @NotBlank
     private Date orderDate;
-    @NotBlank
-    @Column(name="table number")
+    @NotNull
     @Min(1)
     private int tableNum;
-    @NotBlank
+    @Enumerated(value = EnumType.STRING)
+//    @Column(columnDefinition = "ACTIVE")
     private OrderStatus status;
+
 
     public Long getId() {
         return id;

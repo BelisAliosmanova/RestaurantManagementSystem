@@ -21,8 +21,17 @@
           <h3 class="text-primary">ADD ORDER - 2</h3>
         </div>
         <div class="p-4">
-          <input type="hidden" th:field="*{id}">//LAST ORDER'S ID
-          <label>Table number: </label>
+          <label>Dish: </label>
+
+          <form class="form-control">
+            <select class="form-control" th:field="*{type}" id="inlineFormCustomSelectPref" required>
+              <option value = ""></option>
+              <option value="SOFT">Soft</option>
+              <option value="ALCOHOLIC">Alcoholic</option>
+              <option value="HOT">Hot</option>
+            </select>
+            <span th:if = "${#fields.hasErrors('type')}" th:errors = "*{type}" style = "color:red"></span>
+          </form><br>
           <div class="input-group mb-3">
             <input type="text" th:field="*{tableNum}" class="form-control" required>
           </div>

@@ -1,6 +1,4 @@
 package com.example.waiter.Entities;
-
-import com.example.waiter.Enums.DishType;
 import com.example.waiter.Enums.DrinkType;
 
 import javax.persistence.*;

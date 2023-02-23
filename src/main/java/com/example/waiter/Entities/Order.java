@@ -1,14 +1,11 @@
 package com.example.waiter.Entities;
 
 import com.example.waiter.Enums.OrderStatus;
-import net.bytebuddy.implementation.bind.annotation.Default;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
-import java.util.List;
-
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -21,10 +18,6 @@ public class Order {
     @Min(1)
     private int tableNum;
     private double totalPrice;
-//    @ManyToMany
-//    private List<Dish> dishes;
-//    @ManyToMany
-//    private List<Drink> drinks;
     @Enumerated(value = EnumType.STRING)
 
     private OrderStatus status;

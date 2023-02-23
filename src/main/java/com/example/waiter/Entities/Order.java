@@ -20,10 +20,14 @@ public class Order {
     @NotNull
     @Min(1)
     private int tableNum;
+    private double totalPrice;
+//    @ManyToMany
+//    private List<Dish> dishes;
+//    @ManyToMany
+//    private List<Drink> drinks;
     @Enumerated(value = EnumType.STRING)
-//    @Column(columnDefinition = "ACTIVE")
-    private OrderStatus status;
 
+    private OrderStatus status;
 
     public Long getId() {
         return id;

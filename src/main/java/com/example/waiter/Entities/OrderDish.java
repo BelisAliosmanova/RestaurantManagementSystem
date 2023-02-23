@@ -1,7 +1,6 @@
 package com.example.waiter.Entities;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "order_dish")
@@ -16,6 +15,15 @@ public class OrderDish {
     @JoinColumn(name = "dish_id")
     private Dish dish;
     private int count;
+
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
 
     public Order getOrder() {
         return order;

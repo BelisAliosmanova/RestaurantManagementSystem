@@ -14,8 +14,35 @@ public class OrderDish {
     @ManyToOne
     @JoinColumn(name = "dish_id")
     private Dish dish;
-    private int count;
+    @ManyToOne
+    @JoinColumn(name = "drink_id")
+    private Drink drink;
+    private int dishCount;
+    private int drinkCount;
 
+    public int getDishCount() {
+        return dishCount;
+    }
+
+    public void setDishCount(int dishCount) {
+        this.dishCount = dishCount;
+    }
+
+    public int getDrinkCount() {
+        return drinkCount;
+    }
+
+    public void setDrinkCount(int drinkCount) {
+        this.drinkCount = drinkCount;
+    }
+
+    public Drink getDrink() {
+        return drink;
+    }
+
+    public void setDrink(Drink drink) {
+        this.drink = drink;
+    }
 
     public Long getId() {
         return Id;
@@ -39,13 +66,5 @@ public class OrderDish {
 
     public void setDish(Dish dish) {
         this.dish = dish;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
     }
 }

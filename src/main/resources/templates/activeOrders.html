@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:iteration="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="/css/waiter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <title>Restaurant Menu</title>
+</head>
+<body>
+<div class="menu-container">
+
+  <input type="checkbox" id="openmenu" class="hamburger-checkbox">
+
+  <div class="hamburger-icon">
+    <label for="openmenu" id="hamburger-label">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+  </div>
+  <div class="menu-pane">
+    <nav>
+      <ul class="menu-links">
+        <li><a href="/restaurantMenu">RESTAURANT MENU</a></li>
+        <li><a href="/addDish">ADD DISH TO MENU</a></li>
+        <li><a href="/addDrink">ADD DRINK TO MENU</a></li>
+        <li><a href="/activeOrders">ACTIVE ORDERS</a></li>
+        <li><a href="/addOrder">TAKE AN ORDER</a></li>
+        <li><a href="/waiterReference">REFERENCE</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+<div class = "fr">
+  <table class="table table-bordered">
+    <thead>
+    <tr class="text-center">-->
+      <td colspan="6" style="align:center"><h1>ACTIVE ORDERS</h1></td>
+    </tr>
+    <tr>
+      <th>id</th>
+      <th>status</th>
+      <th>table number</th>
+      <th>total price</th>
+      <th>order date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${activeOrders}">
+      <td th:text="${order.id}"></td>
+      <td th:text="${order.status}"></td>
+      <td th:text="${order.tableNum}"></td>
+      <td th:text="${order.totalPrice}"></td>
+      <td th:text="${order.orderDate}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
+<style>
+div.fr {
+width: 1000px;
+margin: 50px auto 0;
+}
+body  {
+  background-image: url("https://www.centonzerestaurant.com/resourcefiles/homeimages/centonze.jpg");
+  background-color: #cccccc;
+}
+table {
+        background-color: white;
+        }
+</style>

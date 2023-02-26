@@ -23,7 +23,7 @@ body {
 .hamburger-icon span {
   height: 5px;
   width: 40px;
-  background-color: black;
+  background-color: #83E55E;
   display: block;
   margin: 5px 0px 5px 0px;
   transition: 0.7s ease-in-out;

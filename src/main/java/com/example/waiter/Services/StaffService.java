@@ -16,9 +16,9 @@ public class StaffService {
     @Autowired
     StaffRepository staffRepository;
 
-    public boolean processRegister(@Valid Staff staff, BindingResult bindingResult) {
+    public ModelAndView processRegister(@Valid Staff staff, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return false;
+            return new ModelAndView("/register");
         } else {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String encodedPassword = passwordEncoder.encode(staff.getPassword());
@@ -27,9 +27,9 @@ public class StaffService {
             if ((staff.getRole().equals(Role.COOK)) || (staff.getRole().equals(Role.WAITER))) {
                 System.out.println(staff.getRole());
                 staffRepository.save(staff);
-                return true;
+                return new ModelAndView("menu");
             } else {
-                return false;
+                return new ModelAndView("/register");
             }
         }
     }

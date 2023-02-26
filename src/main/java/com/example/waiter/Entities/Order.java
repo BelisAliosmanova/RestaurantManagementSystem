@@ -1,6 +1,8 @@
 package com.example.waiter.Entities;
 
 import com.example.waiter.Enums.OrderStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -18,9 +20,20 @@ public class Order {
     @Min(1)
     private int tableNum;
     private double totalPrice;
+    @OneToOne
+    @JoinColumn(name = "staff_id")
+    private Staff staff;
     @Enumerated(value = EnumType.STRING)
 
     private OrderStatus status;
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
 
     public Long getId() {
         return id;
@@ -28,6 +41,14 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public Date getOrderDate() {

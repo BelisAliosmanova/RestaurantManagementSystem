@@ -16,7 +16,6 @@ public class Staff {
     @Size(min=5, max=50)
     private String username;
     @NotNull
-    @Size(min=5, max=50)
     @Pattern(regexp=".*[a-zA-Z].*")
     private String password;
     @Enumerated(EnumType.STRING)

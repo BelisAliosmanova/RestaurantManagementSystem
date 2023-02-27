@@ -2,6 +2,8 @@ package com.example.waiter.Controllers;
 
 import com.example.waiter.Entities.Order;
 import com.example.waiter.Entities.OrderDish;
+import com.example.waiter.Exceptions.IllegalDishOrDrinkCountException;
+import com.example.waiter.Exceptions.NoOrderDishException;
 import com.example.waiter.Repositories.DishRepository;
 import com.example.waiter.Repositories.DrinkRepository;
 import com.example.waiter.Repositories.OrderDishRepository;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,6 +45,9 @@ public class OrderDishController {
     @PostMapping("/orderSubmitDish")
     public ModelAndView addOrderDish(@Valid OrderDish orderDish, BindingResult bindingResult, Model model,
                                      @RequestParam(value = "addAnotherDish", required = false) boolean addAnotherDish) {
+        if (orderDish.getDrink() == null && orderDish.getDish() == null) {
+            throw new NoOrderDishException("AT LEAST ONE DISH OR DRINK SHOULD BE SELECTED!");
+        }
         if (bindingResult.hasErrors()) {
             model.addAttribute("dishes", dishRepository.findAll());
             model.addAttribute("drinks", drinkRepository.findAll());
@@ -51,26 +57,43 @@ public class OrderDishController {
             orderDish.setOrder(orderRepository.findFirstByOrderByIdDesc());
             orderDishRepository.save(orderDish);
             setOrderRepository(orderDish);
+            deleteNullOrders();
             return new ModelAndView("redirect:/homePageWaiter");
         } else {
             model.addAttribute("orderId", orderRepository.findFirstByOrderByIdDesc());
             orderDish.setOrder(orderRepository.findFirstByOrderByIdDesc());
             orderDishRepository.save(orderDish);
             setOrderRepository(orderDish);
+            deleteNullOrders();
             return new ModelAndView("redirect:/addOrderDish");
         }
     }
-    public void setOrderRepository(OrderDish orderDish){
+
+    public void setOrderRepository(OrderDish orderDish) {
         double priceDish = 0;
         double priceDrink = 0;
-        if(orderDish.getDish()!=null) {
+        if (orderDish.getDish() != null) {
             priceDish = orderDish.getDish().getPrice() * orderDish.getDishCount();
         }
-        if(orderDish.getDrink()!=null){
+        if (orderDish.getDrink() != null) {
             priceDrink = orderDish.getDrink().getPrice() * orderDish.getDrinkCount();
         }
         Order order = orderDish.getOrder();
         order.setTotalPrice(priceDish + priceDrink + order.getTotalPrice());
         orderRepository.save(order);
+    }
+    public void deleteNullOrders(){
+        Iterable<Order> orders = orderRepository.findAll();
+        for (Order order: orders) {
+            if(order.getTotalPrice()==0){
+                orderRepository.deleteById(order.getId());
+            }
+        }
+    }
+    @ExceptionHandler(NoOrderDishException.class)
+    @GetMapping("/error")
+    public String handleNoOrderDishException(NoOrderDishException ex, Model model) {
+        model.addAttribute("error", ex.getMessage());
+        return "error";
     }
 }

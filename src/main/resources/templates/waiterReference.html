@@ -11,9 +11,7 @@
 </head>
 <body>
 <div class="menu-container">
-
     <input type="checkbox" id="openmenu" class="hamburger-checkbox">
-
     <div class="hamburger-icon">
         <label for="openmenu" id="hamburger-label">
             <span></span>
@@ -61,28 +59,17 @@
             <td th:text="${order.orderDate}"></td>
         </tr>
         <tr class="text-center">
-            <button onclick="window.location.href='?sort=date'" class="btn btn-success">Sort by Date</button>
-            <button onclick="window.location.href='?filter=date'">Filter</button>
-            <input type="date" name = "startDate" id="startDate" step="any" class="form-control" required>
-            <input type="date" name = "endDate" id="endDate" step="any" class="form-control" required>
+            <form>
+            <button name = "sort" value = "date" class="btn btn-success">Sort by Date</button>
+            <button class="btn btn-success">Filter by Date</button>
+            <input type="date" name = "startDate" id="startDate" step="any" class="form-control">
+            <input type="date" name = "endDate" id="endDate" step="any" class="form-control">
+            </form>
         </tr>
     </table>
 </div>
 </body>
-<!--<script>-->
-<!--    function filter(){-->
-<!--    const startDate = document.getElementById("startDate");-->
-<!--    const endDate = document.getElementById("endDate");-->
-<!--    const allOrders = document.querySelectorAll(${waiterOrders});-->
-<!--    Array.from(allOrders).forEach((el) => {-->
-<!--    //const date = el.querySelectorAll("td")[4];-->
-<!--    console.log(el);-->
-<!--    })-->
-
-<!--    }-->
-<!--</script>-->
 </html>
-
 
 <style>
 div.fr {

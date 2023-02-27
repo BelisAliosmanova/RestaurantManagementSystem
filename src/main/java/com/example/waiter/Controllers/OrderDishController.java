@@ -50,22 +50,27 @@ public class OrderDishController {
         } else if (!addAnotherDish) {
             orderDish.setOrder(orderRepository.findFirstByOrderByIdDesc());
             orderDishRepository.save(orderDish);
-            double priceDish = orderDish.getDish().getPrice() * orderDish.getDishCount();
-            double priceDrink = orderDish.getDrink().getPrice() * orderDish.getDrinkCount();
-            Order order = orderDish.getOrder();
-            order.setTotalPrice(priceDish + priceDrink + order.getTotalPrice());
-            orderRepository.save(order);
+            setOrderRepository(orderDish);
             return new ModelAndView("redirect:/homePageWaiter");
         } else {
             model.addAttribute("orderId", orderRepository.findFirstByOrderByIdDesc());
             orderDish.setOrder(orderRepository.findFirstByOrderByIdDesc());
             orderDishRepository.save(orderDish);
-            double priceDish = orderDish.getDish().getPrice() * orderDish.getDishCount();
-            double priceDrink = orderDish.getDrink().getPrice() * orderDish.getDrinkCount();
-            Order order = orderDish.getOrder();
-            order.setTotalPrice(priceDish + priceDrink + order.getTotalPrice());
-            orderRepository.save(order);
+            setOrderRepository(orderDish);
             return new ModelAndView("redirect:/addOrderDish");
         }
+    }
+    public void setOrderRepository(OrderDish orderDish){
+        double priceDish = 0;
+        double priceDrink = 0;
+        if(orderDish.getDish()!=null) {
+            priceDish = orderDish.getDish().getPrice() * orderDish.getDishCount();
+        }
+        if(orderDish.getDrink()!=null){
+            priceDrink = orderDish.getDrink().getPrice() * orderDish.getDrinkCount();
+        }
+        Order order = orderDish.getOrder();
+        order.setTotalPrice(priceDish + priceDrink + order.getTotalPrice());
+        orderRepository.save(order);
     }
 }

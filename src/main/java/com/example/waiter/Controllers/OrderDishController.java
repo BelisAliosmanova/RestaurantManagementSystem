@@ -50,11 +50,21 @@ public class OrderDishController {
         } else if (!addAnotherDish) {
             orderDish.setOrder(orderRepository.findFirstByOrderByIdDesc());
             orderDishRepository.save(orderDish);
+            double priceDish = orderDish.getDish().getPrice() * orderDish.getDishCount();
+            double priceDrink = orderDish.getDrink().getPrice() * orderDish.getDrinkCount();
+            Order order = orderDish.getOrder();
+            order.setTotalPrice(priceDish + priceDrink + order.getTotalPrice());
+            orderRepository.save(order);
             return new ModelAndView("redirect:/homePageWaiter");
         } else {
             model.addAttribute("orderId", orderRepository.findFirstByOrderByIdDesc());
             orderDish.setOrder(orderRepository.findFirstByOrderByIdDesc());
             orderDishRepository.save(orderDish);
+            double priceDish = orderDish.getDish().getPrice() * orderDish.getDishCount();
+            double priceDrink = orderDish.getDrink().getPrice() * orderDish.getDrinkCount();
+            Order order = orderDish.getOrder();
+            order.setTotalPrice(priceDish + priceDrink + order.getTotalPrice());
+            orderRepository.save(order);
             return new ModelAndView("redirect:/addOrderDish");
         }
     }

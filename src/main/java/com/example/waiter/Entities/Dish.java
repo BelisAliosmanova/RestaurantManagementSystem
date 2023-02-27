@@ -26,9 +26,6 @@ public class Dish {
     @Min(1)
     private double price;
 
-
-
-
     public String getIngredients() {
         return ingredients;
     }

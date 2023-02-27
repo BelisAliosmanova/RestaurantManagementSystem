@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -63,27 +65,29 @@ public class StaffController {
     @GetMapping("/waiterReference")
     public String waiterReference(@RequestParam(defaultValue = "asc") String sort, Model model,
                                   @RequestParam(name = "sort", defaultValue = "") String sortParam,
-                                  @RequestParam(name = "startDate") Date startDate,
-                                  @RequestParam(name = "endDate") Date endDate) {
+                                  @RequestParam(name = "startDate", defaultValue = "") String startDate,
+                                  @RequestParam(name = "endDate", defaultValue = "") String endDate) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Iterable<Order> orders = orderRepository.findAll();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Staff staff = staffRepository.findByUsername(auth.getName());
         List<Order> waiterOrders = new ArrayList<>();
         for (Order order : orders) {
             if(order.getStaff().equals(staff)){
-                waiterOrders.add(order);
+                if(!(startDate.equals("") && endDate.equals(""))) {
+                    if (order.getOrderDate().after(formatter.parse(startDate)) && (order.getOrderDate().before(formatter.parse(endDate)))) {
+                        waiterOrders.add(order);
+                    }
+                } else{
+                    waiterOrders.add(order);
+                }
             }
         }
         if (sortParam.equals("date")) {
             waiterOrders.sort(Comparator.comparing(Order::getOrderDate));
         }
-        for(Order order : orders){
-            if((order.getOrderDate().after(startDate)) && (order.getOrderDate().before(endDate))){
-                List<Order> filteredOrders = new ArrayList<>();
-                filteredOrders.add(order);
-                model.addAttribute("filteredOrders", filteredOrders);
-            }
-        }
+        System.out.println(startDate);
+        System.out.println(endDate);
         model.addAttribute("waiter", auth.getName());
         model.addAttribute("waiterOrders", waiterOrders);
         return "/waiterReference";

@@ -62,11 +62,28 @@
         </tr>
         <tr class="text-center">
             <button onclick="window.location.href='?sort=date'" class="btn btn-success">Sort by Date</button>
+            <button onclick="window.location.href='?filter=date'">Filter</button>
+            <input type="date" name = "startDate" id="startDate" step="any" class="form-control" required>
+            <input type="date" name = "endDate" id="endDate" step="any" class="form-control" required>
         </tr>
     </table>
 </div>
 </body>
+<!--<script>-->
+<!--    function filter(){-->
+<!--    const startDate = document.getElementById("startDate");-->
+<!--    const endDate = document.getElementById("endDate");-->
+<!--    const allOrders = document.querySelectorAll(${waiterOrders});-->
+<!--    Array.from(allOrders).forEach((el) => {-->
+<!--    //const date = el.querySelectorAll("td")[4];-->
+<!--    console.log(el);-->
+<!--    })-->
+
+<!--    }-->
+<!--</script>-->
 </html>
+
+
 <style>
 div.fr {
 width: 1000px;

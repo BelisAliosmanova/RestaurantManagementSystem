@@ -61,7 +61,10 @@ public class StaffController {
     OrderRepository orderRepository;
 
     @GetMapping("/waiterReference")
-    public String waiterReference(@RequestParam(defaultValue = "asc") String sort, Model model, @RequestParam(name = "sort", defaultValue = "") String sortParam) {
+    public String waiterReference(@RequestParam(defaultValue = "asc") String sort, Model model,
+                                  @RequestParam(name = "sort", defaultValue = "") String sortParam,
+                                  @RequestParam(name = "startDate") Date startDate,
+                                  @RequestParam(name = "endDate") Date endDate) {
         Iterable<Order> orders = orderRepository.findAll();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Staff staff = staffRepository.findByUsername(auth.getName());
@@ -73,6 +76,13 @@ public class StaffController {
         }
         if (sortParam.equals("date")) {
             waiterOrders.sort(Comparator.comparing(Order::getOrderDate));
+        }
+        for(Order order : orders){
+            if((order.getOrderDate().after(startDate)) && (order.getOrderDate().before(endDate))){
+                List<Order> filteredOrders = new ArrayList<>();
+                filteredOrders.add(order);
+                model.addAttribute("filteredOrders", filteredOrders);
+            }
         }
         model.addAttribute("waiter", auth.getName());
         model.addAttribute("waiterOrders", waiterOrders);

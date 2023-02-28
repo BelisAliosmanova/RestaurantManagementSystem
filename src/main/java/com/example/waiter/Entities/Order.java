@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
@@ -18,6 +19,7 @@ public class Order {
     private Date orderDate;
     @NotNull
     @Min(1)
+    @Max(20)
     private int tableNum;
     private double totalPrice;
     @OneToOne

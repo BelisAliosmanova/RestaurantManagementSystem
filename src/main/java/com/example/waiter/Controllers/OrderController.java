@@ -4,6 +4,8 @@ import com.example.waiter.Entities.Order;
 import com.example.waiter.Entities.OrderDish;
 import com.example.waiter.Entities.Staff;
 import com.example.waiter.Enums.OrderStatus;
+import com.example.waiter.Exceptions.NoOrderDishException;
+import com.example.waiter.Exceptions.NotFreeTableException;
 import com.example.waiter.Repositories.OrderDishRepository;
 import com.example.waiter.Repositories.OrderRepository;
 import com.example.waiter.Repositories.StaffRepository;
@@ -13,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,6 +50,13 @@ public class OrderController {
         if(bindingResult.hasErrors()){
             return new ModelAndView("/addOrder");
         } else {
+            Iterable<Order> allOrders = orderRepository.findAll();
+            for (Order newOrder: allOrders) {
+                if((order.getTableNum()== newOrder.getTableNum()) && (newOrder.getStatus().equals(OrderStatus.ACTIVE))){
+                    throw new NotFreeTableException("THIS TABLE IS NOT FREE NOW!");
+
+                }
+            }
             Authentication auth= SecurityContextHolder.getContext().getAuthentication();
             Staff staff = staffRepository.getStaffByUsername(auth.getName());
             order.setStaff(staff);
@@ -66,5 +76,11 @@ public class OrderController {
         }
         model.addAttribute("activeOrders", activeOrders);
         return "/activeOrders";
+    }
+    @ExceptionHandler(NotFreeTableException.class)
+    @GetMapping("/error1")
+    public String NotFreeTableException(NotFreeTableException ex, Model model) {
+        model.addAttribute("error", ex.getMessage());
+        return "error";
     }
 }

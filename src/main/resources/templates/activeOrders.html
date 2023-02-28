@@ -47,6 +47,7 @@
       <th>table number</th>
       <th>total price</th>
       <th>order date</th>
+      <th>update</th>
     </tr>
     </thead>
     <tbody>
@@ -56,6 +57,10 @@
       <td th:text="${order.tableNum}"></td>
       <td th:text="${order.totalPrice}"></td>
       <td th:text="${order.orderDate}"></td>
+      <td>
+        <a th:href="@{editOrder/{orderId}(orderId=${order.id})}">Update</a>
+        </form>
+      </td>
     </tr>
     </tbody>
   </table>

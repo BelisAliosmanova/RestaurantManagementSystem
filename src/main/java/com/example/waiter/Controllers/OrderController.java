@@ -4,7 +4,6 @@ import com.example.waiter.Entities.Order;
 import com.example.waiter.Entities.OrderDish;
 import com.example.waiter.Entities.Staff;
 import com.example.waiter.Enums.OrderStatus;
-import com.example.waiter.Exceptions.NoOrderDishException;
 import com.example.waiter.Exceptions.NotFreeTableException;
 import com.example.waiter.Repositories.OrderDishRepository;
 import com.example.waiter.Repositories.OrderRepository;
@@ -17,18 +16,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Controller
 public class OrderController {
@@ -70,7 +65,7 @@ public class OrderController {
         Iterable<Order> allOrders = orderRepository.findAll();
         List<Order> activeOrders = new ArrayList<>();
         for (Order order : allOrders) {
-            if (order.getStatus().equals(OrderStatus.ACTIVE)) {
+            if (order.getStatus().equals(OrderStatus.ACTIVE) || order.getStatus().equals(OrderStatus.SERVED) ) {
                 activeOrders.add(order);
             }
         }

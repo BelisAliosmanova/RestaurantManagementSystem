@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Summary</title>
+</head>
+<body>
+<h1>Order summary</h1>
+<label>Status: </label>
+<span th:text="${order.status}"></span><br>
+<label>Order number: </label>
+<span th:text="${order.id}"></span><br>
+<label>Table number: </label>
+<span th:text="${order.tableNum}"></span><br>
+<label>Total price: </label>
+<span th:text="${order.totalPrice}"></span><br>
+<label>Order date: </label>
+<span th:text="${order.orderDate}"></span><br>
+<label>Dish count: </label>
+<span th:text="${orderDish.dishCount}"></span><br>
+<label>Dish name: </label>
+<!--<span th:text="${orderDish.dish.name}"></span>-->
+<label>Drink count: </label>
+<span th:text="${orderDish.drinkCount}"></span><br>
+<label>Drink name: </label>
+<!--<span th:text="${orderDish.drink.name}"></span>-->
+
+<a href = "/activeOrders">Back!</a>
+</body>
+</html>

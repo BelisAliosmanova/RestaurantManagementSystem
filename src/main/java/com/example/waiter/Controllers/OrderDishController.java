@@ -2,7 +2,7 @@ package com.example.waiter.Controllers;
 
 import com.example.waiter.Entities.Order;
 import com.example.waiter.Entities.OrderDish;
-import com.example.waiter.Exceptions.IllegalDishOrDrinkCountException;
+import com.example.waiter.Enums.OrderStatus;
 import com.example.waiter.Exceptions.NoOrderDishException;
 import com.example.waiter.Repositories.DishRepository;
 import com.example.waiter.Repositories.DrinkRepository;
@@ -12,13 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class OrderDishController {
@@ -69,7 +67,7 @@ public class OrderDishController {
         }
     }
 
-    public void setOrderRepository(OrderDish orderDish) {
+    public double setOrderRepository(OrderDish orderDish) {
         double priceDish = 0;
         double priceDrink = 0;
         if (orderDish.getDish() != null) {
@@ -81,6 +79,7 @@ public class OrderDishController {
         Order order = orderDish.getOrder();
         order.setTotalPrice(priceDish + priceDrink + order.getTotalPrice());
         orderRepository.save(order);
+        return priceDish;
     }
     public void deleteNullOrders(){
         Iterable<Order> orders = orderRepository.findAll();
@@ -95,5 +94,41 @@ public class OrderDishController {
     public String handleNoOrderDishException(NoOrderDishException ex, Model model) {
         model.addAttribute("error", ex.getMessage());
         return "error";
+    }
+    @GetMapping ("/editOrder/{orderId}")
+    public String editOrder(@PathVariable(name="orderId") Long orderId, Model model ) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isPresent()) {
+            model.addAttribute("order", optionalOrder.get());
+        } else {
+            model.addAttribute("order", "Error!");
+            model.addAttribute("errorMsg", "Not existing order with id: " + orderId);
+        }
+        return "/editOrder";
+    }
+    @PostMapping("/updateOrder")
+    public ModelAndView updateOrder(@Valid Order order, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("/editOrder");
+        } else {
+            if(order.getStatus().equals(OrderStatus.PAID)){
+                for (OrderDish orderDish:orderDishRepository.findAll()) {
+                    if(orderDish.getOrder().getId().equals(order.getId())){
+                        //should be checking in thymeleaf for null value
+                        model.addAttribute("orderDish", orderDish);
+                        Optional<Order> newOrder = orderRepository.findById(order.getId());
+                        order.setTotalPrice(newOrder.get().getTotalPrice());
+                        order.setStatus(OrderStatus.PAID);
+                        model.addAttribute("order", order);
+//                        orderDishRepository.deleteById(orderDish.getId());
+                    }
+                }
+//                orderRepository.deleteById(order.getId());
+                return new ModelAndView("/orderSummary");
+            }
+            order.setStatus(OrderStatus.PAID);
+            orderRepository.save(order);
+            return new ModelAndView("redirect:/activeOrders");
+        }
     }
 }

@@ -54,11 +54,12 @@
           <label>Table number: </label>
           <div class="input-group mb-3">
             <input type="number" step="any" th:field="*{tableNum}" class="form-control" required>
+            <span th:if = "${#fields.hasErrors('tableNum')}" th:errors = "*{tableNum}" style = "color:red"></span>
           </div>
           <input type="hidden" step="any" th:field="*{status}" class="form-control" required>
           <div class="d-grid col-12 mx-auto">
             <br>
-            <button type="submit" class="btn btn-success">Next --> </button><br>
+            <button type="submit" class="btn btn-success">Next</button><br>
             <button type="reset" class="btn btn-primary">Reset</button>
             <a th:href="@{/homePageWaiter}">Back!</a><br>
           </div>

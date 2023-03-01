@@ -114,19 +114,13 @@ public class OrderDishController {
             if(order.getStatus().equals(OrderStatus.PAID)){
                 for (OrderDish orderDish:orderDishRepository.findAll()) {
                     if(orderDish.getOrder().getId().equals(order.getId())){
-                        //should be checking in thymeleaf for null value
                         model.addAttribute("orderDish", orderDish);
-                        Optional<Order> newOrder = orderRepository.findById(order.getId());
-                        order.setTotalPrice(newOrder.get().getTotalPrice());
-                        order.setStatus(OrderStatus.PAID);
                         model.addAttribute("order", order);
-//                        orderDishRepository.deleteById(orderDish.getId());
                     }
                 }
-//                orderRepository.deleteById(order.getId());
+                orderRepository.save(order);
                 return new ModelAndView("/orderSummary");
             }
-            order.setStatus(OrderStatus.PAID);
             orderRepository.save(order);
             return new ModelAndView("redirect:/activeOrders");
         }

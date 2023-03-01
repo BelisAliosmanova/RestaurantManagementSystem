@@ -16,20 +16,18 @@
     <span th:text="${order.totalPrice}"></span></p>
 <p><label>Order date: </label>
     <span th:text="${order.orderDate}"></span></p>
-<p><label>Dish count: </label>
-    <span th:text="${orderDish.dishCount}"></span></p>
-<p th:if="${orderDish.dishCount != 0}">
-    <label>Dish name: </label>
-    <span th:text="${orderDish.dish.name}"></span>
-</p>
-<p th:if="${orderDish.dishCount == 0}"> Not dish </p>
-<p><label>Drink count: </label>
-    <span th:text="${orderDish.drinkCount}"></span></p>
-<p th:if="${orderDish.drinkCount != 0}">
-    <label>Drink name: </label>
-    <span th:text="${orderDish.drink.name}"></span>
-</p>
-<p th:if="${orderDish.drinkCount == 0}"> Not drink </p>
+<div th:each="orderDish : ${orderDishes}">
+    <p th:if="${orderDish.dishCount != 0}">
+        <span th:text="${orderDish.dishCount}"></span>
+        <span th:text="${orderDish.dish.name}"></span>
+    </p>
+</div>
+<div th:each="orderDish : ${orderDishes}">
+    <p th:if="${orderDish.drinkCount != 0}">
+        <span th:text="${orderDish.drinkCount}"></span>
+        <span th:text="${orderDish.drink.name}"></span>
+    </p>
+</div>
 <a href = "/activeOrders">Back!</a>
 </body>
 </html>

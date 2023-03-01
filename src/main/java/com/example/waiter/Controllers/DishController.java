@@ -18,8 +18,6 @@ import java.util.Optional;
 public class DishController {
     @Autowired
     DishRepository dishRepository;
-
-
     @PostMapping("/dishSubmit")
     public ModelAndView addDish(@Valid Dish dish, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){

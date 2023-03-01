@@ -6,25 +6,28 @@
 </head>
 <body>
 <h1>Order summary</h1>
-<label>Status: </label>
-<span th:text="${order.status}"></span><br>
-<label>Order number: </label>
-<span th:text="${order.id}"></span><br>
-<label>Table number: </label>
-<span th:text="${order.tableNum}"></span><br>
-<label>Total price: </label>
-<span th:text="${order.totalPrice}"></span><br>
-<label>Order date: </label>
-<span th:text="${order.orderDate}"></span><br>
-<label>Dish count: </label>
-<span th:text="${orderDish.dishCount}"></span><br>
-<label>Dish name: </label>
-<!--<span th:text="${orderDish.dish.name}"></span>-->
-<label>Drink count: </label>
-<span th:text="${orderDish.drinkCount}"></span><br>
-<label>Drink name: </label>
-<!--<span th:text="${orderDish.drink.name}"></span>-->
-
+<p><label>Status: </label>
+    <span th:text="${order.status}"></span></p>
+<p><label>Order number: </label>
+    <span th:text="${order.id}"></span></p>
+<p><label>Table number: </label>
+    <span th:text="${order.tableNum}"></span></p>
+<p><label>Total price: </label>
+    <span th:text="${order.totalPrice}"></span></p>
+<p><label>Order date: </label>
+    <span th:text="${order.orderDate}"></span></p>
+<div th:each="orderDish : ${orderDishes}">
+    <p th:if="${orderDish.dishCount != 0}">
+        <span th:text="${orderDish.dishCount}"></span>
+        <span th:text="${orderDish.dish.name}"></span>
+    </p>
+</div>
+<div th:each="orderDish : ${orderDishes}">
+    <p th:if="${orderDish.drinkCount != 0}">
+        <span th:text="${orderDish.drinkCount}"></span>
+        <span th:text="${orderDish.drink.name}"></span>
+    </p>
+</div>
 <a href = "/activeOrders">Back!</a>
 </body>
 </html>

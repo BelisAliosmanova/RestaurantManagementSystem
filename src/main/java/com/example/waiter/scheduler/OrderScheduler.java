@@ -15,7 +15,7 @@ public class OrderScheduler {
     public void deleteNullOrders() {
         Iterable<Order> orders = orderRepository.findAll();
         for (Order order : orders) {
-            if (order.getTotalPrice() == 0) {
+            if (order.getTotalPrice() < 1) {
                 orderRepository.deleteById(order.getId());
             }
         }

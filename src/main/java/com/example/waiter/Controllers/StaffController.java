@@ -88,4 +88,12 @@ public class StaffController {
         model.addAttribute("waiterOrders", waiterOrders);
         return "/waiterReference";
     }
+    public List<Object[]> getOrdersGroupedByOrderDate() {
+        return orderRepository.groupByOrderDate();
+    }
+    @GetMapping("/cookReference")
+    public String cookReference(Model model){
+        model.addAttribute("ordersGroupedByOrderDate", getOrdersGroupedByOrderDate());
+        return "/cookReference";
+    }
 }

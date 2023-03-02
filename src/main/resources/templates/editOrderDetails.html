@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:iteration="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/waiter.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Edit order details</title>
+</head>
+<body>
+<div class="menu-container">
+
+    <input type="checkbox" id="openmenu" class="hamburger-checkbox">
+
+    <div class="hamburger-icon">
+        <label for="openmenu" id="hamburger-label">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+    </div>
+    <div class="menu-pane">
+        <nav>
+            <ul class="menu-links">
+                <li><a href="/restaurantMenu">RESTAURANT MENU</a></li>
+                <li><a href="/addDish">ADD DISH TO MENU</a></li>
+                <li><a href="/addDrink">ADD DRINK TO MENU</a></li>
+                <li><a href="/activeOrders">ACTIVE ORDERS</a></li>
+                <li><a href="/addOrder">TAKE AN ORDER</a></li>
+                <li><a href="/waiterReference">REFERENCE</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class = "fr">
+    <table class="table table-bordered">
+        <thead>
+        <tr class="text-center">
+            <td colspan="6" style="align:center"><h1>EDIT ORDER</h1></td>
+        </tr>
+        <tr>
+            <th>order_id</th>
+            <th>dish count</th>
+            <th>dish name</th>
+            <th>drink count</th>
+            <th>drink name</th>
+            <th>update/delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="orderDish : ${activeOrders}">
+            <td th:text="${orderDish.order.id}"></td>
+            <p th:if="${orderDish.dishCount != 0}">
+            <td th:text="${orderDish.dishCount}"></td>
+            <td th:text="${orderDish.dish.name}"></td>
+            </p>
+            <p th:unless="${orderDish.dishCount != 0}">
+            <td> no dish </td>
+            <td> no dish </td>
+            </p>
+            <p th:if="${orderDish.drinkCount != 0}">
+            <td th:text="${orderDish.drinkCount}"></td>
+            <td th:text="${orderDish.drink.name}"></td>
+            </p>
+            <p th:unless="${orderDish.drinkCount != 0}">
+            <td> no drink </td>
+            <td> no drink </td>
+            </p>
+            <td>
+                <a th:href="@{editOrderDish/{orderDishId}(orderDishId=${orderDish.id})}">Update</a>
+                <form th:action="@{delete/{orderDishId}(orderDishId=${orderDish.id})}" method="post">
+                    <button type="submit" class="btn btn-default">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
+<style>
+div.fr {
+width: 1000px;
+margin: 50px auto 0;
+}
+body  {
+  background-image: url("https://www.centonzerestaurant.com/resourcefiles/homeimages/centonze.jpg");
+  background-color: #cccccc;
+}
+table {
+        background-color: white;
+        }
+</style>

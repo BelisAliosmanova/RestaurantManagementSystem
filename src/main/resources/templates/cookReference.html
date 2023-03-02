@@ -25,12 +25,9 @@
   <div class="menu-pane">
     <nav>
       <ul class="menu-links">
-        <li><a href="/restaurantMenu">RESTAURANT MENU</a></li>
-        <li><a href="/addDish">ADD DISH TO MENU</a></li>
-        <li><a href="/addDrink">ADD DRINK TO MENU</a></li>
+        <li><a href="/homePageCook">HOME PAGE COOK</a></li>
         <li><a href="/activeOrders">ACTIVE ORDERS</a></li>
-        <li><a href="/addOrder">TAKE AN ORDER</a></li>
-        <li><a href="/waiterReference">REFERENCE</a></li>
+        <li><a href="/cookReference">REFERENCE</a></li>
       </ul>
     </nav>
   </div>
@@ -38,28 +35,18 @@
 <div class = "fr">
   <table class="table table-bordered">
     <thead>
-    <tr class="text-center">-->
-      <td colspan="6" style="align:center"><h1>ACTIVE ORDERS</h1></td>
+    <tr class="text-center">
+      <td colspan="6" style="align:center"><h1>COOK REFERENCE</h1></td>
     </tr>
     <tr>
-      <th>id</th>
-      <th>status</th>
-      <th>table number</th>
-      <th>total price</th>
-      <th>order date</th>
-      <th>update</th>
+      <th>Order Date</th>
+      <th>Number of Orders</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="order : ${activeOrders}">
-      <td th:text="${order.id}"></td>
-      <td th:text="${order.status}"></td>
-      <td th:text="${order.tableNum}"></td>
-      <td th:text="${order.totalPrice}"></td>
-      <td th:text="${order.orderDate}"></td>
-      <td>
-        <a th:href="@{editOrder/{orderId}(orderId=${order.id})}">Update</a>
-      </td>
+    <tr th:each="group : ${ordersGroupedByOrderDate}">
+      <td th:text="${group[0]}"></td>
+      <td th:text="${group[1]}"></td>
     </tr>
     </tbody>
   </table>

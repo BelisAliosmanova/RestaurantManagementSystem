@@ -1,4 +1,4 @@
-package com.example.waiter.Services;
+package com.example.waiter.Security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

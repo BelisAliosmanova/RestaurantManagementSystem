@@ -1,6 +1,5 @@
 package com.example.waiter.Security;
 
-import com.example.waiter.Services.CustomAuthenticationSuccessHandler;
 import com.example.waiter.Services.StaffDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

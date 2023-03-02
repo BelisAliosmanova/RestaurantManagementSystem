@@ -2,12 +2,10 @@ package com.example.waiter.Controllers;
 
 import com.example.waiter.Entities.Order;
 import com.example.waiter.Entities.OrderDish;
+import com.example.waiter.Entities.Staff;
 import com.example.waiter.Enums.OrderStatus;
 import com.example.waiter.Exceptions.NoOrderDishException;
-import com.example.waiter.Repositories.DishRepository;
-import com.example.waiter.Repositories.DrinkRepository;
-import com.example.waiter.Repositories.OrderDishRepository;
-import com.example.waiter.Repositories.OrderRepository;
+import com.example.waiter.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +29,8 @@ public class OrderDishController {
     private OrderRepository orderRepository;
     @Autowired
     private DrinkRepository drinkRepository;
+    @Autowired
+    private StaffRepository staffRepository;
 
     @GetMapping("/addOrderDish")
     public String addOrderDish(Model model) {
@@ -56,20 +57,20 @@ public class OrderDishController {
         } else if (!addAnotherDish) {
             orderDish.setOrder(orderRepository.findFirstByOrderByIdDesc());
             orderDishRepository.save(orderDish);
-            setOrderRepository(orderDish);
+            setOrderPrice(orderDish);
             deleteNullOrders();
             return new ModelAndView("redirect:/homePageWaiter");
         } else {
             model.addAttribute("orderId", orderRepository.findFirstByOrderByIdDesc());
             orderDish.setOrder(orderRepository.findFirstByOrderByIdDesc());
             orderDishRepository.save(orderDish);
-            setOrderRepository(orderDish);
+            setOrderPrice(orderDish);
             deleteNullOrders();
             return new ModelAndView("redirect:/addOrderDish");
         }
     }
 
-    public double setOrderRepository(OrderDish orderDish) {
+    private double setOrderPrice(OrderDish orderDish) {
         double priceDish = 0;
         double priceDrink = 0;
         if (orderDish.getDish() != null) {
@@ -79,14 +80,16 @@ public class OrderDishController {
             priceDrink = orderDish.getDrink().getPrice() * orderDish.getDrinkCount();
         }
         Order order = orderDish.getOrder();
+        System.out.println("before method - " + order.getTotalPrice());
         order.setTotalPrice(priceDish + priceDrink + order.getTotalPrice());
+        System.out.println("from method - "+order.getTotalPrice());
         orderRepository.save(order);
-        return priceDish;
+        return order.getTotalPrice();
     }
-    public void deleteNullOrders(){
+    private void deleteNullOrders(){
         Iterable<Order> orders = orderRepository.findAll();
         for (Order order: orders) {
-            if(order.getTotalPrice()==0){
+            if(order.getTotalPrice() < 1){
                 orderRepository.deleteById(order.getId());
             }
         }
@@ -98,11 +101,14 @@ public class OrderDishController {
         return "error";
     }
     @GetMapping ("/editOrder/{orderId}")
-    public String editOrder(@PathVariable(name="orderId") Long orderId, Model model ) {
+    public String editOrder(@PathVariable(name="orderId") Long orderId, Model model, Principal principal) {
         Optional<Order> optionalOrder = orderRepository.findById(orderId);
         if (optionalOrder.isPresent()) {
             model.addAttribute("order", optionalOrder.get());
         } else {
+            String username = principal.getName();
+            Staff staff = staffRepository.findByUsername(username);
+            model.addAttribute("staffRole", staff.getRole());
             model.addAttribute("order", "Error!");
             model.addAttribute("errorMsg", "Not existing order with id: " + orderId);
         }
@@ -127,6 +133,56 @@ public class OrderDishController {
             }
             orderRepository.save(order);
             return new ModelAndView("redirect:/activeOrders");
+        }
+    }
+    @GetMapping("/editOrderDetails")
+    public String editOrderDetails(Model model){
+        model.addAttribute("activeOrders", orderDishRepository.findAll());
+        return "/editOrderDetails";
+    }
+    @PostMapping ("/delete/{orderDishId}")
+    public ModelAndView deleteOrderDish(@PathVariable (name="orderDishId") Long orderDishId, Model model ) {
+        Optional<OrderDish> orderDish = orderDishRepository.findById(orderDishId);
+        orderDish.get().getOrder().setTotalPrice(calculateTotalPriceDeleteMethod(orderDish.get()));
+        orderDishRepository.deleteById(orderDishId);
+        return new ModelAndView("redirect:/editOrderDetails");
+    }
+    private double calculateTotalPriceDeleteMethod(OrderDish orderDish){
+        double currentPrice = orderDish.getOrder().getTotalPrice();
+        if(orderDish.getDishCount()!=0){
+            currentPrice -= (orderDish.getDishCount()*orderDish.getDish().getPrice());
+        }
+        if(orderDish.getDrinkCount()!=0){
+            currentPrice -= (orderDish.getDrinkCount()*orderDish.getDrink().getPrice());
+        }
+        System.out.println(currentPrice);
+        return currentPrice;
+    }
+
+    public static Long orderId;
+    @GetMapping ("/editOrderDish/{orderDishId}")
+    public String editOrderDish(@PathVariable (name="orderDishId") Long orderDishId, Model model ) {
+        Optional<OrderDish> optionalOrderDish = orderDishRepository.findById(orderDishId);
+        if (optionalOrderDish.isPresent()) {
+            orderId = optionalOrderDish.get().getOrder().getId();
+            model.addAttribute("dishes", dishRepository.findAll());
+            model.addAttribute("drinks", drinkRepository.findAll());
+            model.addAttribute("orderDish", optionalOrderDish.get());
+        } else {
+            model.addAttribute("orderDish", "Error!");
+            model.addAttribute("errorMsg", "Not existing order with id: " + orderDishId);
+        }
+        return "/editOrderDish";
+    }
+    @PostMapping("/updateOrderDish")
+    public ModelAndView updateOrderDish(@Valid OrderDish orderDish, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("/editOrderDish");
+        } else {
+            Optional<Order> order = orderRepository.findById(orderId);
+            orderDish.setOrder(order.get());
+            orderDishRepository.save(orderDish);
+            return new ModelAndView("redirect:/homePageWaiter");
         }
     }
 }

@@ -38,7 +38,7 @@ public class DishServiceTest {
         dish.setIngredients("");
         dish.setId(1L);
         dish.setPrice(5);
-        dish.setPrice(-1);
+
 
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(true);
@@ -49,11 +49,11 @@ public class DishServiceTest {
     @Test
     void testAddDishSubmit_WithoutBindingErrors() {
         Dish dish = new Dish();
-        dish.setName("");
-        dish.setIngredients("");
+        dish.setName("Cucumber soup");
+        dish.setIngredients("cucumber, yogurt, garlic");
         dish.setId(1L);
-        dish.setPrice(5);
-        dish.setPrice(-1);
+        dish.setPrice(3);
+
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(false);
         ModelAndView result = dishService.addDishSubmit(dish, bindingResult);
@@ -76,11 +76,11 @@ public class DishServiceTest {
     void testEditDishWithExistingId() {
         Long dishId = 1L;
         Dish dish = new Dish();
-        dish.setName("");
-        dish.setIngredients("");
+        dish.setName("Cucumber soup");
+        dish.setIngredients("cucumber, yogurt, garlic");
         dish.setId(1L);
-        dish.setPrice(5);
-        dish.setPrice(-1);
+        dish.setPrice(3);
+
         when(dishRepository.findById(dishId)).thenReturn(Optional.of(dish));
         Model model = new ExtendedModelMap();
         String viewName = dishService.editDish(dishId, model);
@@ -101,11 +101,10 @@ public class DishServiceTest {
     @Test
     void testUpdateDishWithValidDish() {
         Dish dish = new Dish();
-        dish.setName("");
-        dish.setIngredients("");
+        dish.setName("Cucumber soup");
+        dish.setIngredients("cucumber, yogurt, garlic");
         dish.setId(1L);
-        dish.setPrice(5);
-        dish.setPrice(-1);
+        dish.setPrice(3);
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(false);
         Model model = new ExtendedModelMap();
@@ -116,11 +115,10 @@ public class DishServiceTest {
     @Test
     void testUpdateDishWithInvalidDish() {
         Dish dish = new Dish();
-        dish.setName("");
-        dish.setIngredients("");
+        dish.setName("Cucumber soup");
+        dish.setIngredients("cucumber, yogurt, garlic");
         dish.setId(1L);
-        dish.setPrice(5);
-        dish.setPrice(-1);
+        dish.setPrice(3);
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(true);
         Model model = new ExtendedModelMap();

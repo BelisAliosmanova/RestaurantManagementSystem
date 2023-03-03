@@ -25,13 +25,10 @@ import java.util.List;
 public class StaffController {
     @Autowired
     StaffService staffService;
-    @Autowired
-    StaffRepository staffRepository;
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-        model.addAttribute("staff", new Staff());
-        return "/register";
+        return staffService.showRegistrationForm(model);
     }
 
     @PostMapping("/process_register")
@@ -41,59 +38,23 @@ public class StaffController {
 
     @GetMapping("/homePageWaiter")
     public String homePageWaiter(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        model.addAttribute("username", username);
-        return "/homePageWaiter";
+        return staffService.homePageWaiter(model);
     }
 
     @GetMapping("/homePageCook")
     public String homePageCook(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        model.addAttribute("username", username);
-        return "/homePageCook";
+        return staffService.homePageCook(model);
     }
-
-    @Autowired
-    OrderRepository orderRepository;
 
     @GetMapping("/waiterReference")
     public String waiterReference(@RequestParam(defaultValue = "asc") String sort, Model model,
                                   @RequestParam(name = "sort", defaultValue = "") String sortParam,
                                   @RequestParam(name = "startDate", defaultValue = "") String startDate,
                                   @RequestParam(name = "endDate", defaultValue = "") String endDate) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Iterable<Order> orders = orderRepository.findAll();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Staff staff = staffRepository.findByUsername(auth.getName());
-        List<Order> waiterOrders = new ArrayList<>();
-        for (Order order : orders) {
-            if(order.getStaff().equals(staff)){
-                if(!(startDate.equals("") && endDate.equals(""))) {
-                    if (order.getOrderDate().after(formatter.parse(startDate)) && (order.getOrderDate().before(formatter.parse(endDate)))) {
-                        waiterOrders.add(order);
-                    }
-                } else{
-                    waiterOrders.add(order);
-                }
-            }
-        }
-        if (sortParam.equals("date")) {
-            waiterOrders.sort(Comparator.comparing(Order::getOrderDate));
-        }
-        System.out.println(startDate);
-        System.out.println(endDate);
-        model.addAttribute("waiter", auth.getName());
-        model.addAttribute("waiterOrders", waiterOrders);
-        return "/waiterReference";
-    }
-    public List<Object[]> getOrdersGroupedByOrderDate() {
-        return orderRepository.groupByOrderDate();
+        return staffService.waiterReference(sort, model, sortParam, startDate,endDate);
     }
     @GetMapping("/cookReference")
     public String cookReference(Model model){
-        model.addAttribute("ordersGroupedByOrderDate", getOrdersGroupedByOrderDate());
-        return "/cookReference";
+        return staffService.cookReference(model);
     }
 }

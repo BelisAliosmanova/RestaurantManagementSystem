@@ -50,15 +50,18 @@
                     <input type="hidden" th:field="*{id}">
                     <input type="hidden" th:field="*{totalPrice}">
                     <input type="hidden" th:field="*{staff}">
-                    <label>Order date: </label>
                     <div class="input-group mb-3">
-                        <input type="date" th:field="*{orderDate}" class="form-control" required>
+                        <input type="hidden" th:field="*{orderDate}" class="form-control" required>
                     </div>
-                    <label>Table number: </label>
+                    <label>Order date: </label>
+                    <input type="date" th:field="*{orderDate}" class="form-control" disabled>
                     <div class="input-group mb-3">
-                        <input type="number" step="any" th:field="*{tableNum}" class="form-control" required>
+                        <input type="hidden" step="any" th:field="*{tableNum}" class="form-control" required>
                         <span th:if = "${#fields.hasErrors('tableNum')}" th:errors = "*{tableNum}" style = "color:red"></span>
                     </div>
+                    <label>Table number: </label>
+                    <input type="number" th:field="*{tableNum}" class="form-control" disabled>
+                    <label>Order status: </label>
                     <form class="form-control">
                         <select class="form-control" th:field="*{status}" id="status1" required>
                             <option value = ""></option>

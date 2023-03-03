@@ -16,7 +16,7 @@ public class Staff {
     @Size(min=5, max=50)
     private String username;
     @NotNull
-    @Pattern(regexp=".*[a-zA-Z].*")
+    @Pattern(regexp="^(?=.*[a-zA-Z])(?=.*\\d).{5,}$", message = ("At least 5 symbols, including numbers and letters!"))
     private String password;
     @Enumerated(EnumType.STRING)
     @NotNull

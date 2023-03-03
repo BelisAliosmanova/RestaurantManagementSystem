@@ -72,10 +72,12 @@
             <td> no drink </td>
             </p>
             <td>
-                <a th:href="@{editOrderDish/{orderDishId}(orderDishId=${orderDish.id})}">Update</a>
+                <a th:href="@{editOrderDish/{orderDishId}(orderDishId=${orderDish.id})}">Update dish/drink/count</a><br>
+                <a th:href="@{addOrderDish}">Add dish/drink</a>
                 <form th:action="@{delete/{orderDishId}(orderDishId=${orderDish.id})}" method="post">
                     <button type="submit" class="btn btn-default">Delete</button>
                 </form>
+
             </td>
         </tr>
         </tbody>

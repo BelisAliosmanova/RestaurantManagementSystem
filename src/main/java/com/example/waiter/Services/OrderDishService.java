@@ -155,4 +155,10 @@ public class OrderDishService {
             return new ModelAndView("redirect:/homePageWaiter");
         }
     }
+    @GetMapping ("/addOrderDish")
+    public String addDishDrinkToExistingOrder(Long orderDishId, Model model){
+        Optional <OrderDish> optionalOrderDish=orderDishRepository.findById(orderDishId) ;
+        model.addAttribute("orderId",optionalOrderDish.get().getOrder().getId());
+        return "/addOrderDish";
+    }
 }

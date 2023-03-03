@@ -63,13 +63,13 @@ div.menu-pane {
   transform: translateX(-105vw);
   transform-origin: (0, 0);
   width: 100vw;
-  height: 100%;
+  height: 150%;
   transition: 0.6s ease-in-out;
 }
 
 .menu-pane p {
   color: black;
-  font-size: 0.6em;
+  font-size: 0.5em;
 }
 
 .menu-pane nav {
@@ -86,10 +86,10 @@ div.menu-pane {
 }
 
 .menu-pane li {
-  padding-top: 20px;
+  padding-top: 10px;
   padding-bottom: 20px;
   margin-left: 10px;
-    font-size: 1em;
+  font-size: 1em;
 }
 
 
@@ -151,7 +151,7 @@ input.hamburger-checkbox {
   z-index: 3;
   top: 5vh;
   left: 5vw;
-  width: 10vw;
+  width: 15vw;
   opacity: 0;
   height: 6vh;
 }

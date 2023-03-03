@@ -46,4 +46,17 @@ public class OrderController {
     public ModelAndView updateOrder(@Valid Order order, BindingResult bindingResult, Model model) {
         return orderService.updateOrder(order, bindingResult, model);
     }
-}
+    @GetMapping("/activeOrdersCook")
+    public String activeOrdersCook(Model model) {
+        return orderService.activeOrdersCook(model);
+    }
+    @GetMapping ("/editOrderStatusCook/{orderId}")
+    public String editOrderStatus(Long orderId, Model model) {
+     return   orderService.editOrderStatusCook(orderId,model);
+    }
+    @PostMapping("/updateOrderStatusCook")
+    public ModelAndView updateOrderStatusCook(@Valid Order order, BindingResult bindingResult, Model model) {
+        return orderService.updateOrderStatusCook(order,bindingResult,model);
+    }
+    }
+

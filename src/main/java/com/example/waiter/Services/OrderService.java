@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
@@ -75,7 +74,7 @@ public class OrderService {
         model.addAttribute("error", ex.getMessage());
         return "error";
     }
-    @GetMapping ("/editOrder/{orderId}")
+
     public String editOrder(Long orderId, Model model, Principal principal) {
         Optional<Order> optionalOrder = orderRepository.findById(orderId);
         if (optionalOrder.isPresent()) {
@@ -89,7 +88,7 @@ public class OrderService {
         }
         return "/editOrder";
     }
-    @PostMapping("/updateOrder")
+
     public ModelAndView updateOrder(Order order, BindingResult bindingResult, Model model) {
         List<OrderDish> orderDishes = new ArrayList<>();
         if (bindingResult.hasErrors()) {
@@ -109,5 +108,40 @@ public class OrderService {
             orderRepository.save(order);
             return new ModelAndView("redirect:/activeOrders");
         }
+    }
+
+
+    public String editOrderStatusCook(Long orderId, Model model) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isPresent()) {
+            model.addAttribute("order", optionalOrder.get());
+        } else {
+            model.addAttribute("order", "Error!");
+            model.addAttribute("errorMsg", "Not existing order with id: " + orderId);
+        }
+        return "/editOrderStatusCook";
+    }
+
+    public ModelAndView updateOrderStatusCook(Order order, BindingResult bindingResult, Model model) {
+        List<OrderDish> orderDishes = new ArrayList<>();
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("/editOrderStatusCook");
+        } else {
+
+                orderRepository.save(order);
+               return new ModelAndView("redirect:/activeOrdersCook");
+        }
+    }
+
+    public String activeOrdersCook(Model model) {
+        Iterable<Order> allOrders = orderRepository.findAll();
+        List<Order> activeOrdersCook = new ArrayList<>();
+        for (Order order : allOrders) {
+            if (order.getStatus().equals(OrderStatus.ACTIVE) || order.getStatus().equals(OrderStatus.PREPARING) ) {
+                activeOrdersCook.add(order);
+            }
+        }
+        model.addAttribute("activeOrdersCook", activeOrdersCook);
+        return "/activeOrdersCook";
     }
 }

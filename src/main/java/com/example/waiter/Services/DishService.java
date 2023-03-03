@@ -44,7 +44,6 @@ public class DishService {
 
     public ModelAndView updateDish(@Valid Dish dish, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            ;
             return new ModelAndView("/editDish");
         } else {
             dishRepository.save(dish);

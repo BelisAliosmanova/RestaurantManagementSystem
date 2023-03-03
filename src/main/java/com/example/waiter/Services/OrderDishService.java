@@ -64,7 +64,6 @@ public class OrderDishService {
             return new ModelAndView("redirect:/addOrderDish");
         }
     }
-
     private double setOrderPrice(OrderDish orderDish) {
         double priceDish = 0;
         double priceDrink = 0;
@@ -118,6 +117,20 @@ public class OrderDishService {
     }
 
     private static Long orderId;
+    private double setOrderPriceUpdate(OrderDish orderDish) {
+        double priceDish = 0;
+        double priceDrink = 0;
+        if (orderDish.getDish() != null) {
+            priceDish = orderDish.getDish().getPrice() * orderDish.getDishCount();
+        }
+        if (orderDish.getDrink() != null) {
+            priceDrink = orderDish.getDrink().getPrice() * orderDish.getDrinkCount();
+        }
+        Optional<Order> order = orderRepository.findById(orderId);
+        order.get().setTotalPrice(priceDish + priceDrink);
+        orderRepository.save(order.get());
+        return order.get().getTotalPrice();
+    }
     @GetMapping ("/editOrderDish/{orderDishId}")
     public String editOrderDish(Long orderDishId, Model model ) {
         Optional<OrderDish> optionalOrderDish = orderDishRepository.findById(orderDishId);
@@ -138,6 +151,8 @@ public class OrderDishService {
             return new ModelAndView("/editOrderDish");
         } else {
             Optional<Order> order = orderRepository.findById(orderId);
+            order.get().setTotalPrice(setOrderPriceUpdate(orderDish));
+            System.out.println("Updated price " + order.get().getTotalPrice());
             orderDish.setOrder(order.get());
             orderDishRepository.save(orderDish);
             return new ModelAndView("redirect:/homePageWaiter");

@@ -2,8 +2,6 @@ package com.example.waiter.Services;
 
 import com.example.waiter.Entities.Order;
 import com.example.waiter.Entities.OrderDish;
-import com.example.waiter.Entities.Staff;
-import com.example.waiter.Enums.OrderStatus;
 import com.example.waiter.Exceptions.NoOrderDishException;
 import com.example.waiter.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,7 @@ public class OrderDishService {
     @Autowired
     private StaffRepository staffRepository;
 
-    @GetMapping("/addOrderDish")
+
     public String addOrderDish(Model model) {
         model.addAttribute("orderDish", new OrderDish());
         model.addAttribute("dishes", dishRepository.findAll());
@@ -39,7 +37,7 @@ public class OrderDishService {
         return ("/addOrderDish");
     }
 
-    @PostMapping("/orderSubmitDish")
+
     public ModelAndView addOrderDish(OrderDish orderDish, BindingResult bindingResult, Model model, boolean addAnotherDish) {
         if (orderDish.getDrink() == null && orderDish.getDish() == null) {
             throw new NoOrderDishException("AT LEAST ONE DISH OR DRINK SHOULD BE SELECTED!");
@@ -92,12 +90,12 @@ public class OrderDishService {
         model.addAttribute("error", ex.getMessage());
         return "error";
     }
-    @GetMapping("/editOrderDetails")
+
     public String editOrderDetails(Model model){
         model.addAttribute("activeOrders", orderDishRepository.findAll());
         return "/editOrderDetails";
     }
-    @PostMapping ("/delete/{orderDishId}")
+
     public ModelAndView deleteOrderDish(Long orderDishId, Model model ) {
         Optional<OrderDish> orderDish = orderDishRepository.findById(orderDishId);
         orderDish.get().getOrder().setTotalPrice(calculateTotalPriceDeleteMethod(orderDish.get()));
@@ -117,7 +115,7 @@ public class OrderDishService {
     }
 
     private static Long orderId;
-    private double setOrderPriceUpdate(OrderDish orderDish) {
+    public double setOrderPriceUpdate(OrderDish orderDish) {
         double priceDish = 0;
         double priceDrink = 0;
         if (orderDish.getDish() != null) {
@@ -131,7 +129,6 @@ public class OrderDishService {
         orderRepository.save(order.get());
         return order.get().getTotalPrice();
     }
-    @GetMapping ("/editOrderDish/{orderDishId}")
     public String editOrderDish(Long orderDishId, Model model ) {
         Optional<OrderDish> optionalOrderDish = orderDishRepository.findById(orderDishId);
         if (optionalOrderDish.isPresent()) {

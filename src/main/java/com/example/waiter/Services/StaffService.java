@@ -12,12 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,19 +43,16 @@ public class StaffService {
                 return new ModelAndView("/register");
             }
         }
-    }
-    public String showRegistrationForm(Model model) {
+    }public String showRegistrationForm(Model model) {
         model.addAttribute("staff", new Staff());
         return "/register";
     }
-
     public String homePageWaiter(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         model.addAttribute("username", username);
         return "/homePageWaiter";
     }
-
     public String homePageCook(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();

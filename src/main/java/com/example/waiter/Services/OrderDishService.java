@@ -115,7 +115,7 @@ public class OrderDishService {
     }
 
     private static Long orderId;
-    private double setOrderPriceUpdate(OrderDish orderDish) {
+    public double setOrderPriceUpdate(OrderDish orderDish) {
         double priceDish = 0;
         double priceDrink = 0;
         if (orderDish.getDish() != null) {
@@ -129,7 +129,6 @@ public class OrderDishService {
         orderRepository.save(order.get());
         return order.get().getTotalPrice();
     }
-
     public String editOrderDish(Long orderDishId, Model model ) {
         Optional<OrderDish> optionalOrderDish = orderDishRepository.findById(orderDishId);
         if (optionalOrderDish.isPresent()) {

@@ -1,8 +1,6 @@
 package com.example.waiter;
-
-import com.example.waiter.Entities.Order;
 import com.example.waiter.Entities.Staff;
-import com.example.waiter.Repositories.OrderDishRepository;
+import com.example.waiter.Enums.Role;
 import com.example.waiter.Repositories.OrderRepository;
 import com.example.waiter.Repositories.StaffRepository;
 import com.example.waiter.Services.StaffService;
@@ -11,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.TestingAuthenticationToken;
@@ -19,15 +16,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.text.ParseException;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -72,7 +63,22 @@ public class StaffServiceTest {
         String viewName = new StaffService().homePageCook(model);
         assertEquals("/homePageCook", viewName);
     }
-
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+    @Test
+    public void testProcessRegister_withValidInput_shouldSaveStaffAndRedirectToMenu() {
+        Staff staff = new Staff();
+        staff.setUsername("testuser");
+        staff.setPassword("password");
+        staff.setRole(Role.WAITER);
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.hasErrors()).thenReturn(false);
+        ModelAndView mav = staffService.processRegister(staff, bindingResult);
+        verify(staffRepository, times(1)).save(staff);
+        assertEquals("menu", mav.getViewName());
+        assertEquals(0, mav.getModel().size());
+    }
 
 }
-

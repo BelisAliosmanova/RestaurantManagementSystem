@@ -78,6 +78,8 @@ public class StaffServiceTest {
         Staff staff = new Staff();
         staff.setUsername("testuser");
         staff.setPassword("password");
+        staff.setId(1L);
+        staff.getId();
         staff.setRole(Role.WAITER);
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(false);

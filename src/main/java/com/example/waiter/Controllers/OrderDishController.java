@@ -1,6 +1,5 @@
 package com.example.waiter.Controllers;
 
-import com.example.waiter.Entities.Order;
 import com.example.waiter.Entities.OrderDish;
 import com.example.waiter.Exceptions.NoOrderDishException;
 import com.example.waiter.Services.OrderDishService;

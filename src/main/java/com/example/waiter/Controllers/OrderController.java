@@ -1,6 +1,7 @@
 package com.example.waiter.Controllers;
 
 import com.example.waiter.Entities.Order;
+import com.example.waiter.Entities.OrderDish;
 import com.example.waiter.Exceptions.NotFreeTableException;
 import com.example.waiter.Services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class OrderController {
@@ -65,6 +67,10 @@ public class OrderController {
     @PostMapping("/updateOrderStatusCook")
     public ModelAndView updateOrderStatusCook(@Valid Order order, BindingResult bindingResult, Model model) {
         return orderService.updateOrderStatusCook(order, bindingResult, model);
+    }
+    @GetMapping("/orderDetailsCook/{orderId}")
+    public String showOrderDetails(@PathVariable(name = "orderId") Long orderId, Model model) {
+        return orderService.showOrderDetails(orderId, model);
     }
 }
 

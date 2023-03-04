@@ -64,7 +64,7 @@ public class OrderService {
         Iterable<Order> allOrders = orderRepository.findAll();
         List<Order> activeOrders = new ArrayList<>();
         for (Order order : allOrders) {
-            if (order.getStatus().equals(OrderStatus.ACTIVE) || order.getStatus().equals(OrderStatus.SERVED)) {
+            if (order.getStatus().equals(OrderStatus.ACTIVE) || order.getStatus().equals(OrderStatus.SERVED) || order.getStatus().equals(OrderStatus.PREPARING) || order.getStatus().equals(OrderStatus.PREPARED)) {
                 activeOrders.add(order);
             }
         }
@@ -154,5 +154,4 @@ public class OrderService {
                 model.addAttribute("activeOrders",activeOrders);
         return   "/orderDetailsCook";
     }
-
 }

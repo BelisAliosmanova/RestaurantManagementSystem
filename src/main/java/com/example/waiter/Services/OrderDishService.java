@@ -76,7 +76,7 @@ public class OrderDishService {
         orderRepository.save(order);
         return order.getTotalPrice();
     }
-    private void deleteNullOrders(){
+    public void deleteNullOrders(){
         Iterable<Order> orders = orderRepository.findAll();
         for (Order order: orders) {
             if(order.getTotalPrice() < 1){

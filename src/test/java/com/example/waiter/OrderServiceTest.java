@@ -95,5 +95,32 @@ public class OrderServiceTest {
         assertEquals(orderDishes, activeOrders);
         assertEquals("/orderDetailsCook", viewName);
     }
+    @Test
+    void testActiveOrdersCook() {
+        // Mock the order repository to return some sample data
+        Order order1=new Order();
+        order1.setId(1L);
+        order1.setStatus(OrderStatus.ACTIVE);
+        order1.setTotalPrice(50);
 
+        Order order2=new Order();
+        order2.setId(2L);
+
+        order2.setStatus(OrderStatus.ACTIVE);
+        order2.setTotalPrice(40);
+        List<Order> allOrders = new ArrayList<>();
+        allOrders.add(order1);
+        allOrders.add(order2);
+        when(orderRepository.findAll()).thenReturn(allOrders);
+
+        // Call the service method
+        Model model = new ExtendedModelMap();
+        String viewName = orderService.activeOrdersCook(model);
+
+        // Verify the results
+        assertEquals(viewName,"/activeOrdersCook");
+  List<Order> activeOrdersCook = (List<Order>) model.getAttribute("activeOrdersCook");
+assertEquals(activeOrdersCook.size(),2);
+
+    }
 }

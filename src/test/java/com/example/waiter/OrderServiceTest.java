@@ -4,6 +4,7 @@ import com.example.waiter.Controllers.OrderController;
 import com.example.waiter.Entities.Order;
 import com.example.waiter.Entities.OrderDish;
 import com.example.waiter.Enums.OrderStatus;
+import com.example.waiter.Exceptions.NotFreeTableException;
 import com.example.waiter.Repositories.*;
 import com.example.waiter.Services.OrderDishService;
 import com.example.waiter.Services.OrderService;
@@ -123,4 +124,15 @@ public class OrderServiceTest {
 assertEquals(activeOrdersCook.size(),2);
 
     }
+
+
+    @Test
+    public void testNotFreeTableException() {
+        Model model = new ConcurrentModel();
+        String viewName = orderService.NotFreeTableException(new NotFreeTableException("Table is not free"), model);
+
+        assertEquals("error", viewName);
+        assertEquals("Table is not free", model.getAttribute("error"));
+    }
+
 }

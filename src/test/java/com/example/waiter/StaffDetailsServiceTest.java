@@ -14,39 +14,36 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-
 @ExtendWith(MockitoExtension.class)
 public class StaffDetailsServiceTest {
     @Mock
     StaffRepository staffRepository;
     @InjectMocks
-    StaffDetailsServiceImpl staffDetailsService;
+    StaffDetailsServiceImpl staffDetailsServiceImpl;
+
     @Test
-    public void testLoadUserByUsername() {
+    public void TestLoadUserByUserName() {
         Staff staff = new Staff();
-        staff.setUsername("we");
-        staff.setPassword("password");
+        staff.setUsername("belis");
+        staff.setPassword("b1234");
         staff.setEnabled(true);
-        when(staffRepository.getStaffByUsername("we")).thenReturn(staff);
-        UserDetails userDetails = staffDetailsService.loadUserByUsername("we");
-        assertEquals(userDetails.getUsername(), staff.getUsername());
-        assertEquals(userDetails.getPassword(), staff.getPassword());
-        assertEquals(userDetails.isEnabled(), staff.isEnabled());
+        when(staffRepository.getStaffByUsername("belis")).thenReturn(staff);
+        UserDetails userDetails = staffDetailsServiceImpl.loadUserByUsername("belis");
+        assertEquals(staff.getUsername(), userDetails.getUsername());
+        assertEquals(staff.getPassword(), userDetails.getPassword());
+        assertEquals(staff.isEnabled(), userDetails.isEnabled());
     }
+
     @Test
     public void testLoadUserByUsername_InvalidUsername() {
-        // Configure the mock repository to return null
         when(staffRepository.getStaffByUsername("johndoe")).thenReturn(null);
-
-        // Call the loadUserByUsername method with an invalid username using assertThrows
         Exception exception = assertThrows(
                 UsernameNotFoundException.class,
-                () -> staffDetailsService.loadUserByUsername("johndoe")
+                () -> staffDetailsServiceImpl.loadUserByUsername("johndoe")
         );
-
-        // Verify that the exception message is correct
         String expectedMessage = "Could not find user";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
     }
+
 }

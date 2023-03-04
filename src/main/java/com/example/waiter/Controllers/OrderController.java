@@ -20,6 +20,7 @@ import java.security.Principal;
 public class OrderController {
     @Autowired
     OrderService orderService;
+
     @GetMapping("/addOrder")
     public String addOrder(Model model) {
         return orderService.addOrder(model);
@@ -29,34 +30,41 @@ public class OrderController {
     public ModelAndView addOrder(@Valid Order order, BindingResult bindingResult) {
         return orderService.addOrder(order, bindingResult);
     }
+
     @GetMapping("/activeOrders")
     public String activeOrders(Model model) {
         return orderService.activeOrders(model);
     }
+
     @ExceptionHandler(NotFreeTableException.class)
     @GetMapping("/error1")
     public String NotFreeTableException(NotFreeTableException ex, Model model) {
         return orderService.NotFreeTableException(ex, model);
     }
-    @GetMapping ("/editOrder/{orderId}")
-    public String editOrder(@PathVariable(name="orderId") Long orderId, Model model, Principal principal) {
+
+    @GetMapping("/editOrder/{orderId}")
+    public String editOrder(@PathVariable(name = "orderId") Long orderId, Model model, Principal principal) {
         return orderService.editOrder(orderId, model, principal);
     }
+
     @PostMapping("/updateOrder")
     public ModelAndView updateOrder(@Valid Order order, BindingResult bindingResult, Model model) {
         return orderService.updateOrder(order, bindingResult, model);
     }
+
     @GetMapping("/activeOrdersCook")
     public String activeOrdersCook(Model model) {
         return orderService.activeOrdersCook(model);
     }
-    @GetMapping ("/editOrderStatusCook/{orderId}")
-    public String editOrderStatus(Long orderId, Model model) {
-     return   orderService.editOrderStatusCook(orderId,model);
+
+    @GetMapping("/editOrderStatusCook/{orderId}")
+    public String editOrderStatus(@PathVariable(name = "orderId") Long orderId, Model model) {
+        return orderService.editOrderStatusCook(orderId, model);
     }
+
     @PostMapping("/updateOrderStatusCook")
     public ModelAndView updateOrderStatusCook(@Valid Order order, BindingResult bindingResult, Model model) {
-        return orderService.updateOrderStatusCook(order,bindingResult,model);
+        return orderService.updateOrderStatusCook(order, bindingResult, model);
     }
-    }
+}
 

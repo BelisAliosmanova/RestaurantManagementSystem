@@ -21,8 +21,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import java.security.Principal;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -153,5 +157,22 @@ public class OrderService {
         List<OrderDish> activeOrders= orderDishRepository.findByOrderId(orderId);
                 model.addAttribute("activeOrders",activeOrders);
         return   "/orderDetailsCook";
+    }
+    public String showOrderDetailsByDate(Date orderDate, Model model) throws ParseException {
+//        SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+//        System.out.println(inputFormat);
+//        java.util.Date utilDate = inputFormat.parse(orderDate);
+//        System.out.println( utilDate);
+//        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        System.out.println(outputFormat);
+//        String formattedDate = outputFormat.format(utilDate);
+//        System.out.println( formattedDate);
+       // Date date = format.parse(orderDate);
+     List<OrderDish> activeOrders= orderDishRepository.findByOrderDate(orderDate);
+        model.addAttribute("activeOrders",activeOrders);
+//        System.out.println( activeOrders.get(0).getId());
+//        System.out.println( activeOrders.get(0).getOrderDate());
+        return   "/orderDetailsCook";
+
     }
 }

@@ -39,14 +39,16 @@
       <td colspan="6" style="align:center"><h1>COOK REFERENCE</h1></td>
     </tr>
     <tr>
-      <th>Order Date</th>
+      <th>Order Date/Details</th>
       <th>Number of Orders</th>
+      <th>Details for orders</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="group : ${ordersGroupedByOrderDate}">
-      <td th:text="${group[0]}"></td>
+      <td th:text="${group[0]}">      </td>
       <td th:text="${group[1]}"></td>
+      <td><a th:href="@{orderDetailsByDate/{orderDate}(orderDate=${group[0]})}">Details</a> </td>
     </tr>
     </tbody>
   </table>

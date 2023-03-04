@@ -16,6 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.security.Principal;
+
+import java.sql.Date;
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -72,5 +75,10 @@ public class OrderController {
     public String showOrderDetails(@PathVariable(name = "orderId") Long orderId, Model model) {
         return orderService.showOrderDetails(orderId, model);
     }
+    @GetMapping("/orderDetailsByDate/{orderDate}")
+    public String showOrderDetailsByDate(@PathVariable(name = "orderDate") Date orderDate, Model model) throws ParseException {
+        return orderService.showOrderDetailsByDate(orderDate, model);
+    }
+
 }
 

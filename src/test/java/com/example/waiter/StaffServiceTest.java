@@ -80,5 +80,17 @@ public class StaffServiceTest {
         assertEquals("menu", mav.getViewName());
         assertEquals(0, mav.getModel().size());
     }
-
+    @Test
+    public void testProcessRegister_withInValidInput() {
+        Staff staff = new Staff();
+        staff.setUsername("1");
+        staff.setPassword("password");
+        staff.setRole(Role.WAITER);
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.hasErrors()).thenReturn(true);
+        ModelAndView mav = staffService.processRegister(staff, bindingResult);
+        verify(staffRepository, times(0)).save(staff);
+        assertEquals("/register", mav.getViewName());
+        assertEquals(0, mav.getModel().size());
+    }
 }

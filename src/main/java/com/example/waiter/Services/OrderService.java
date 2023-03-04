@@ -159,20 +159,8 @@ public class OrderService {
         return   "/orderDetailsCook";
     }
     public String showOrderDetailsByDate(Date orderDate, Model model) throws ParseException {
-//        SimpleDateFormat inputFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
-//        System.out.println(inputFormat);
-//        java.util.Date utilDate = inputFormat.parse(orderDate);
-//        System.out.println( utilDate);
-//        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        System.out.println(outputFormat);
-//        String formattedDate = outputFormat.format(utilDate);
-//        System.out.println( formattedDate);
-       // Date date = format.parse(orderDate);
      List<OrderDish> activeOrders= orderDishRepository.findByOrderDate(orderDate);
         model.addAttribute("activeOrders",activeOrders);
-//        System.out.println( activeOrders.get(0).getId());
-//        System.out.println( activeOrders.get(0).getOrderDate());
         return   "/orderDetailsCook";
-
     }
 }

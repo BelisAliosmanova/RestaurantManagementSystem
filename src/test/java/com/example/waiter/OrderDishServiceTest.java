@@ -62,6 +62,7 @@ public class OrderDishServiceTest {
         orderDish.setDish(dish);
         orderDish.setDrink(drink);
         orderDish.setDishCount(2);
+        System.out.println(orderDish.getId());
         orderDish.setDrinkCount(1);
         double expectedPrice = 30.0;
         double actualPrice = orderDishService.setOrderPriceUpdate(orderDish);

@@ -43,7 +43,8 @@ public class StaffService {
                 return new ModelAndView("/register");
             }
         }
-    }public String showRegistrationForm(Model model) {
+    }
+    public String showRegistrationForm(Model model) {
         model.addAttribute("staff", new Staff());
         return "/register";
     }

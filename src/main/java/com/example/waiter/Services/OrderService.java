@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,17 +41,17 @@ public class OrderService {
 
     public ModelAndView addOrder(Order order, BindingResult bindingResult) {
         System.out.println(order.getOrderDate());
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return new ModelAndView("/addOrder");
         } else {
             Iterable<Order> allOrders = orderRepository.findAll();
-            for (Order newOrder: allOrders) {
-                if((order.getTableNum()== newOrder.getTableNum()) && (newOrder.getStatus().equals(OrderStatus.ACTIVE))){
+            for (Order newOrder : allOrders) {
+                if ((order.getTableNum() == newOrder.getTableNum()) && (newOrder.getStatus().equals(OrderStatus.ACTIVE))) {
                     throw new NotFreeTableException("THIS TABLE IS NOT FREE NOW!");
 
                 }
             }
-            Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             Staff staff = staffRepository.getStaffByUsername(auth.getName());
             order.setStaff(staff);
             order.setStatus(OrderStatus.valueOf("ACTIVE"));
@@ -58,17 +59,19 @@ public class OrderService {
             return new ModelAndView("redirect:/addOrderDish");
         }
     }
+
     public String activeOrders(Model model) {
         Iterable<Order> allOrders = orderRepository.findAll();
         List<Order> activeOrders = new ArrayList<>();
         for (Order order : allOrders) {
-            if (order.getStatus().equals(OrderStatus.ACTIVE) || order.getStatus().equals(OrderStatus.SERVED) ) {
+            if (order.getStatus().equals(OrderStatus.ACTIVE) || order.getStatus().equals(OrderStatus.SERVED) || order.getStatus().equals(OrderStatus.PREPARING) || order.getStatus().equals(OrderStatus.PREPARED)) {
                 activeOrders.add(order);
             }
         }
         model.addAttribute("activeOrders", activeOrders);
         return "/activeOrders";
     }
+
     @ExceptionHandler(NotFreeTableException.class)
     @GetMapping("/error1")
     public String NotFreeTableException(NotFreeTableException ex, Model model) {
@@ -95,9 +98,9 @@ public class OrderService {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("/editOrder");
         } else {
-            if(order.getStatus().equals(OrderStatus.PAID)){
-                for (OrderDish orderDish:orderDishRepository.findAll()) {
-                    if(orderDish.getOrder().getId().equals(order.getId())){
+            if (order.getStatus().equals(OrderStatus.PAID)) {
+                for (OrderDish orderDish : orderDishRepository.findAll()) {
+                    if (orderDish.getOrder().getId().equals(order.getId())) {
                         orderDishes.add(orderDish);
                     }
                 }
@@ -111,8 +114,8 @@ public class OrderService {
         }
     }
 
-
     public String editOrderStatusCook(Long orderId, Model model) {
+        System.out.println(" order id " + orderId);
         Optional<Order> optionalOrder = orderRepository.findById(orderId);
         if (optionalOrder.isPresent()) {
             model.addAttribute("order", optionalOrder.get());
@@ -125,12 +128,12 @@ public class OrderService {
 
     public ModelAndView updateOrderStatusCook(Order order, BindingResult bindingResult, Model model) {
         List<OrderDish> orderDishes = new ArrayList<>();
+        System.out.println("id " + order.getId());
         if (bindingResult.hasErrors()) {
             return new ModelAndView("/editOrderStatusCook");
         } else {
-
-                orderRepository.save(order);
-               return new ModelAndView("redirect:/activeOrdersCook");
+            orderRepository.save(order);
+            return new ModelAndView("redirect:/activeOrdersCook");
         }
     }
 
@@ -138,7 +141,7 @@ public class OrderService {
         Iterable<Order> allOrders = orderRepository.findAll();
         List<Order> activeOrdersCook = new ArrayList<>();
         for (Order order : allOrders) {
-            if (order.getStatus().equals(OrderStatus.ACTIVE) || order.getStatus().equals(OrderStatus.PREPARING) ) {
+            if (order.getStatus().equals(OrderStatus.ACTIVE) || order.getStatus().equals(OrderStatus.PREPARING)) {
                 activeOrdersCook.add(order);
             }
         }
@@ -151,5 +154,4 @@ public class OrderService {
                 model.addAttribute("activeOrders",activeOrders);
         return   "/orderDetailsCook";
     }
-
 }

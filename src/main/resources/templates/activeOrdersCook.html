@@ -55,7 +55,8 @@
       <td th:text="${order.totalPrice}"></td>
       <td th:text="${order.orderDate}"></td>
       <td>
-  <a th:href="@{editOrderStatusCook/{orderId}(orderId=${order.id})}">Update status</a>
+  <a th:href="@{editOrderStatusCook/{orderId}(orderId=${order.id})}">Update status</a><br>
+        <a th:href="@{orderDetailsCook/{orderId}(orderId=${order.id})}">Order details</a>
       </td>
     </tr>
     </tbody>

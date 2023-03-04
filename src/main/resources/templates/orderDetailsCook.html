@@ -33,42 +33,42 @@
   </div>
 </div>
 <div class = "fr">
-  <table class="table table-bordered">
-    <thead>
-    <tr class="text-center">
-      <td colspan="6" style="align:center"><h1>ORDER DETAILS</h1></td>
-    </tr>
-    <tr>
-      <th>order_id</th>
-      <th>dish count</th>
-      <th>dish name</th>
-      <th>drink count</th>
-      <th>drink name</th>
+    <table class="table table-bordered">
+        <thead>
+        <tr class="text-center">
+            <td colspan="6" style="align:center"><h1>ORDER DETAILS</h1></td>
+        </tr>
+        <tr>
+            <th>order_id</th>
+            <th>dish count</th>
+            <th>dish name</th>
+            <th>drink count</th>
+            <th>drink name</th>
 
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="orderDish : ${activeOrders}">
-      <td th:text="${orderDish.order.id}"></td>
-      <p th:if="${orderDish.dishCount != 0}">
-      <td th:text="${orderDish.dishCount}"></td>
-      <td th:text="${orderDish.dish.name}"></td>
-      </p>
-      <p th:unless="${orderDish.dishCount != 0}">
-      <td> no dish </td>
-      <td> no dish </td>
-      </p>
-      <p th:if="${orderDish.drinkCount != 0}">
-      <td th:text="${orderDish.drinkCount}"></td>
-      <td th:text="${orderDish.drink.name}"></td>
-      </p>
-      <p th:unless="${orderDish.drinkCount != 0}">
-      <td> no drink </td>
-      <td> no drink </td>
-      </p>
-    </tr>
-    </tbody>
-  </table>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="orderDish : ${activeOrders}">
+            <td th:text="${orderDish.order.id}"></td>
+            <p th:if="${orderDish.dishCount != 0}">
+            <td th:text="${orderDish.dishCount}"></td>
+            <td th:text="${orderDish.dish.name}"></td>
+            </p>
+            <p th:unless="${orderDish.dishCount != 0}">
+            <td> no dish </td>
+            <td> no dish </td>
+            </p>
+            <p th:if="${orderDish.drinkCount != 0}">
+            <td th:text="${orderDish.drinkCount}"></td>
+            <td th:text="${orderDish.drink.name}"></td>
+            </p>
+            <p th:unless="${orderDish.drinkCount != 0}">
+            <td> no drink </td>
+            <td> no drink </td>
+            </p>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

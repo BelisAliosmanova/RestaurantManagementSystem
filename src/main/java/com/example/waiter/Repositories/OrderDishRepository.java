@@ -9,6 +9,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface OrderDishRepository extends JpaRepository<OrderDish, Long> {
-//    @Query("SELECT u FROM Staff u WHERE u.username = :username")
-//    public Staff getStaffByUsername(@Param("username") String username);
+
+//    @Query("SELECT u FROM OrderDish u WHERE u.orderId = :orderId")
+//    public OrderDish getOrderDetailByOrderId(@Param("orderId") Long orderId);
+//
+    List<OrderDish> findByOrderId(Long orderId);
 }

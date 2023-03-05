@@ -1,4 +1,4 @@
-package com.example.waiter;
+package com.example.waiter.OtherTests;
 
 import com.example.waiter.Exceptions.IllegalDishOrDrinkCountException;
 import com.example.waiter.Exceptions.NoOrderDishException;

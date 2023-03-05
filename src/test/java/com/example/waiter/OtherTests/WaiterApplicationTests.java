@@ -1,4 +1,4 @@
-package com.example.waiter;
+package com.example.waiter.OtherTests;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

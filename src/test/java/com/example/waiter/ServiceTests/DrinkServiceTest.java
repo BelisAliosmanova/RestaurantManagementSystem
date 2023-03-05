@@ -1,4 +1,4 @@
-package com.example.waiter;
+package com.example.waiter.ServiceTests;
 
 import com.example.waiter.Entities.Drink;
 import com.example.waiter.Enums.DrinkType;

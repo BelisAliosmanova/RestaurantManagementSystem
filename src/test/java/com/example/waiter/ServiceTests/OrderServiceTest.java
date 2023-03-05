@@ -1,7 +1,5 @@
-package com.example.waiter;
+package com.example.waiter.ServiceTests;
 
-import ch.qos.logback.classic.Logger;
-import com.example.waiter.Controllers.OrderController;
 import com.example.waiter.Entities.Dish;
 import com.example.waiter.Entities.Order;
 import com.example.waiter.Entities.OrderDish;
@@ -10,14 +8,12 @@ import com.example.waiter.Enums.OrderStatus;
 import com.example.waiter.Enums.Role;
 import com.example.waiter.Exceptions.NotFreeTableException;
 import com.example.waiter.Repositories.*;
-import com.example.waiter.Services.OrderDishService;
 import com.example.waiter.Services.OrderService;
 import com.example.waiter.Services.StaffService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,7 +29,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
 import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -99,11 +94,10 @@ public class OrderServiceTest {
         assertFalse(model1.containsAttribute(expectedAttributeName));
         Object attributeValue = model1.get(expectedAttributeName);
         assertFalse(attributeValue instanceof List<?>);
-        //something is not that right here
     }
     @Test
     public void testShowOrderDetailsByDate() throws ParseException, ParseException {
-        Date testDate = new Date(1L); //wants it in milliseconds :)
+        Date testDate = new Date(1L);
         List<OrderDish> orderDishes = new ArrayList<>();
         orderDishes.add(new OrderDish());
         given(orderDishRepository.findByOrderDate(testDate)).willReturn(orderDishes);
@@ -116,7 +110,6 @@ public class OrderServiceTest {
     }
     @Test
     void testActiveOrdersCook() {
-        // Mock the order repository to return some sample data
         Order order1=new Order();
         order1.setId(1L);
         order1.setStatus(OrderStatus.ACTIVE);
@@ -137,12 +130,8 @@ public class OrderServiceTest {
         allOrders.add(order1);
         allOrders.add(order2);
         when(orderRepository.findAll()).thenReturn(allOrders);
-
-        // Call the service method
         Model model = new ExtendedModelMap();
         String viewName = orderService.activeOrdersCook(model);
-
-        // Verify the results
         assertEquals(viewName,"/activeOrdersCook");
   List<Order> activeOrdersCook = (List<Order>) model.getAttribute("activeOrdersCook");
 assertEquals(activeOrdersCook.size(),2);

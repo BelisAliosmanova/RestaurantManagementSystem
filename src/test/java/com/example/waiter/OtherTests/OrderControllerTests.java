@@ -1,4 +1,4 @@
-package com.example.waiter;
+package com.example.waiter.OtherTests;
 
 import com.example.waiter.Controllers.OrderController;
 import com.example.waiter.Services.OrderService;

@@ -1,4 +1,4 @@
-package com.example.waiter;
+package com.example.waiter.OtherTests;
 
 import com.example.waiter.Entities.Staff;
 import com.example.waiter.Enums.Role;

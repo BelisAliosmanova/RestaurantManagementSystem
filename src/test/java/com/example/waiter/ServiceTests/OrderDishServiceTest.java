@@ -1,10 +1,9 @@
-package com.example.waiter;
+package com.example.waiter.ServiceTests;
 
 import com.example.waiter.Entities.Dish;
 import com.example.waiter.Entities.Drink;
 import com.example.waiter.Entities.Order;
 import com.example.waiter.Entities.OrderDish;
-import com.example.waiter.Enums.OrderStatus;
 import com.example.waiter.Exceptions.NoOrderDishException;
 import com.example.waiter.Repositories.DishRepository;
 import com.example.waiter.Repositories.DrinkRepository;
@@ -12,25 +11,23 @@ import com.example.waiter.Repositories.OrderDishRepository;
 import com.example.waiter.Repositories.OrderRepository;
 import com.example.waiter.Services.OrderDishService;
 import com.example.waiter.Services.OrderService;
+import com.example.waiter.Services.StaffService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static com.example.waiter.Controllers.OrderDishController.orderId;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -49,20 +46,13 @@ public class OrderDishServiceTest {
     DrinkRepository drinkRepository;
     @Mock
     OrderDishRepository orderDishRepository;
-    @Test
-    public void testSetOrderPriceUpdate() {
-        Order order = new Order();
-        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
-        double expectedPrice = 0.0;
-        double actualPrice = orderDishService.setOrderPriceUpdate();
-        assertEquals(expectedPrice, actualPrice);
-        Mockito.verify(orderRepository, times(1)).findById(orderId);
-        Mockito.verify(orderRepository, times(1)).save(order);
-    }
+    @InjectMocks
+    StaffService staffService;
     @Test
     void addDishDrinkToExistingOrder_ShouldReturnAddOrderDishViewAndModelAttributes() {
         Long orderDishId = 1L;
         OrderDish orderDish = new OrderDish();
+        orderDish.getId();
         orderDish.setOrder(new Order());
         Mockito.when(orderDishRepository.findById(orderDishId)).thenReturn(Optional.of(orderDish));
         Model model = new ExtendedModelMap();
@@ -70,6 +60,7 @@ public class OrderDishServiceTest {
         assertEquals("/addOrderDish", viewName);
         assertEquals(orderDish.getOrder().getId(), model.getAttribute("orderId"));
     }
+
     @Test
     void testUpdateOrderDishHasErrors() {
         OrderDish orderDish = new OrderDish();
@@ -84,6 +75,7 @@ public class OrderDishServiceTest {
         verify(orderDishRepository, times(0)).save(orderDish);
         assertEquals("/editOrderDish", modelAndView.getViewName());
     }
+
     @Test
     void editOrderDish_shouldReturnEditOrderDishViewAndModelAttributes() {
         Long orderDishId = 1L;
@@ -99,6 +91,7 @@ public class OrderDishServiceTest {
         assertEquals(drinkRepository.findAll(), model.getAttribute("drinks"));
         assertEquals(orderDish, model.getAttribute("orderDish"));
     }
+
     @Test
     public void testEditOrderDetails() {
         List<OrderDish> orderDishList = new ArrayList<>();
@@ -107,6 +100,7 @@ public class OrderDishServiceTest {
         String viewName = orderDishService.editOrderDetails(model);
         assertEquals("/editOrderDetails", viewName);
     }
+
     @Test
     void testUpdateOrderDishWithInvalidDish() {
         OrderDish orderDish = new OrderDish();
@@ -117,49 +111,42 @@ public class OrderDishServiceTest {
         verify(orderDishRepository, never()).save(orderDish);
         assertEquals("/editOrderDish", modelAndView.getViewName());
     }
-//    @Test
-//    void testEditOrderStatusCook_existingOrder() {
-//        // Arrange
-//        Long orderId = 1L;
-//        Order order = new Order();
-//        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
-//        Model model = new ExtendedModelMap();
-//        // Act
-//        String result = orderDishService.editOrderStatusCook(orderId, model);
-//
-//        // Assert
-//        assertEquals("/editOrderStatusCook", result);
-//        verify(model).addAttribute("order", order);
-//        verifyNoMoreInteractions(model);
-//    }
-
-//    @Test
-//    public void testCalculateTotalPriceDeleteMethod() {
-//        // Create an order dish with some initial values
-//        Order order = new Order();
-//        order.setTotalPrice(50.0);
-//        Dish dish = new Dish();
-//        dish.setPrice(10.0);
-//        Drink drink = new Drink();
-//        drink.setPrice(5.0);
-//        OrderDish orderDish = new OrderDish();
-//        orderDish.setOrder(order);
-//        orderDish.setDish(dish);
-//        orderDish.setDishCount(2);
-//        orderDish.setDrink(drink);
-//        orderDish.setDrinkCount(1);
-//
-//        // Call the method being tested
-//        double result = orderDishService.calculateTotalPriceDeleteMethod(orderDish);
-//
-//        // Check the expected result
-//        double expected = 30.0;
-//        assertEquals(expected, result, 0.0);
-//    }
-
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
+    }
+    @Test
+    public void testAddOrderDish() {
+        Model model = new ExtendedModelMap();
+        List<Dish> dishes = new ArrayList<>();
+        dishes.add(new Dish());
+        dishes.add(new Dish());
+        List<Drink> drinks = new ArrayList<>();
+        drinks.add(new Drink());
+        drinks.add(new Drink());
+        List<Order> orders = new ArrayList<>();
+        orders.add(new Order());
+        when(dishRepository.findAll()).thenReturn(dishes);
+        when(drinkRepository.findAll()).thenReturn(drinks);
+        when(orderRepository.findAll()).thenReturn(orders);
+        String result = orderDishService.addOrderDish(model);
+        OrderDish orderDish = (OrderDish) model.getAttribute("orderDish");
+        List<Dish> modelDishes = (List<Dish>) model.getAttribute("dishes");
+        List<Drink> modelDrinks = (List<Drink>) model.getAttribute("drinks");
+        List<Order> modelOrders = (List<Order>) model.getAttribute("orders");
+        Long orderId = (Long) model.getAttribute("orderId");
+        Order order = (Order) model.getAttribute("order");
+        assertAll("model",
+                () -> assertNotNull(orderDish),
+                () -> assertEquals(dishes, modelDishes),
+                () -> assertEquals(drinks, modelDrinks),
+                () -> assertEquals(orders, modelOrders),
+                () -> assertNotNull(order)
+        );
+        assertEquals("/addOrderDish", result);
+    }
     @Test
     public void testDeleteOrderDish() {
-        // Create an order dish with some initial values
         Order order = new Order();
         order.setTotalPrice(50.0);
         Dish dish = new Dish();
@@ -173,96 +160,65 @@ public class OrderDishServiceTest {
         orderDish.setDishCount(2);
         orderDish.setDrink(drink);
         orderDish.setDrinkCount(1);
-
-        // Mock the repository method to return the order dish when findById is called
         when(orderDishRepository.findById(1L)).thenReturn(Optional.of(orderDish));
-        Model model=new ExtendedModelMap();
-        // Call the method being tested
+        Model model = new ExtendedModelMap();
         ModelAndView result = orderDishService.deleteOrderDish(1L, model);
-
-        // Check the expected result
         ModelAndView expected = new ModelAndView("redirect:/editOrderDetails");
         assertEquals(expected.getViewName(), result.getViewName());
         assertEquals(expected.getModel(), result.getModel());
-
-        // Check that the repository method was called with the expected argument
         verify(orderDishRepository, times(1)).deleteById(1L);
     }
 
     @Test
     public void testAddOrderDishWithNoDishOrDrink() {
-        // Create an order dish with null dish and drink fields
         OrderDish orderDish = new OrderDish();
         orderDish.setDrink(null);
         orderDish.setDish(null);
-        Model model=new ExtendedModelMap();
-        BindingResult bindingResult=mock(BindingResult.class);
-        // Call the method being tested and expect an exception to be thrown
+        Model model = new ExtendedModelMap();
+        BindingResult bindingResult = mock(BindingResult.class);
         assertThrows(NoOrderDishException.class, () -> orderDishService.addOrderDish(orderDish, bindingResult, model, false));
     }
-
-//    @Test
-//    public void testAddOrderDishWithErrors() {
-//        // Set up the mock binding result to have errors
-//        BindingResult bindingResult=mock(BindingResult.class);
-//        when(bindingResult.hasErrors()).thenReturn(true);
-//        Model model=new ExtendedModelMap();
-//        // Call the method being tested and expect a ModelAndView object with the "/addOrderDish" view name
-//        ModelAndView result = orderDishService.addOrderDish(new OrderDish(), bindingResult, model, false);
-//        assertEquals("/addOrderDish", result.getViewName());
-//
-//        // Check that the expected model attributes were added
-//        verify(model, times(1)).addAttribute(eq("dishes"), anyList());
-//        verify(model, times(1)).addAttribute(eq("drinks"), anyList());
-//        verify(model, times(1)).addAttribute(eq("orders"), anyList());
-//    }
-
-//    @Test
-//    public void testAddOrderDishWithoutAddingAnotherDish() {
-//        // Create a mock OrderDish object and set up the mock repository to return the latest order when findFirstByOrderByIdDesc is called
-//        OrderDish orderDish = mock(OrderDish.class);
-//        Order latestOrder = new Order();
-//        when(orderDish.getOrder()).thenReturn(latestOrder);
-//        when(orderRepository.findFirstByOrderByIdDesc()).thenReturn(latestOrder);
-//        Model model=new ExtendedModelMap();
-//        BindingResult bindingResult=mock(BindingResult.class);
-//        // Call the method being tested and expect a ModelAndView object with the "redirect:/homePageWaiter" view name
-//        ModelAndView result = orderDishService.addOrderDish(orderDish, bindingResult, model, false);
-//        assertEquals("redirect:/homePageWaiter", result.getViewName());
-//
-//        // Check that the order dish was saved and that setOrderPrice and deleteNullOrders were called
-//        verify(orderDishRepository, times(1)).save(orderDish);
-//        verify(orderDishService, times(1)).setOrderPriceUpdate(orderDish);
-//        //verify(orderDishService, times(1)).deleteNullOrders();
-//    }
-@Test
-public void deleteNullOrdersTest() {
-    List<Order> orders = new ArrayList<>();
-    Order order=new Order();
-    order.setId(1L);
-    orders.add(order);
-    when(orderRepository.findAll()).thenReturn(orders);
-    orderDishService.deleteNullOrders();
-    verify(orderRepository, times(1)).deleteById(1L);
-}
-
+    @Test
+    public void deleteNullOrdersTest() {
+        List<Order> orders = new ArrayList<>();
+        Order order = new Order();
+        order.setId(1L);
+        orders.add(order);
+        when(orderRepository.findAll()).thenReturn(orders);
+        orderDishService.deleteNullOrders();
+        verify(orderRepository, times(1)).deleteById(1L);
+    }
     @Test
     void handleNoOrderDishException_shouldReturnErrorViewWithErrorMessage() {
-        // create a new instance of NoOrderDishException with a custom message
         String errorMessage = "AT LEAST ONE DISH OR DRINK SHOULD BE SELECTED!";
         NoOrderDishException ex = new NoOrderDishException(errorMessage);
-
-        // call the handleNoOrderDishException() method
         Model model = new ConcurrentModel();
         String viewName = orderDishService.handleNoOrderDishException(ex, model);
-
-        // verify that the returned view name is equal to "error"
         assertEquals("error", viewName);
-
-        // verify that the model contains the expected error message
         assertTrue(model.containsAttribute("error"));
         assertEquals(errorMessage, model.getAttribute("error"));
     }
-
-
+    @Test
+    void testSetOrderPrice() {
+        Drink drink = new Drink();
+        drink.setPrice(2.50);
+        drink.setName("Coke");
+        Dish dish = new Dish();
+        dish.setPrice(15.50);
+        dish.setName("Pizza");
+        Order order = new Order();
+        order.setTotalPrice(0);
+        OrderDish orderDish = new OrderDish();
+        orderDish.setOrder(order);
+        orderDish.setDrink(drink);
+        orderDish.setDrinkCount(2);
+        orderDish.setDish(dish);
+        orderDish.setDishCount(1);
+        when(orderRepository.save(order)).thenReturn(order);
+        double actualTotalPrice = orderDishService.setOrderPrice(orderDish);
+        double expectedTotalPrice = drink.getPrice() * orderDish.getDrinkCount()
+                + dish.getPrice() * orderDish.getDishCount();
+        assertEquals(expectedTotalPrice, actualTotalPrice);
+        verify(orderRepository, times(1)).save(order);
+    }
 }

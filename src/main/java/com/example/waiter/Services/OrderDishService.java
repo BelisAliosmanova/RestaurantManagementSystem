@@ -139,7 +139,7 @@ public class OrderDishService {
         }
     }
 
-    private double setOrderPrice(OrderDish orderDish) {
+    public double setOrderPrice(OrderDish orderDish) {
         double priceDish = 0;
         double priceDrink = 0;
         if (orderDish.getDish() != null) {

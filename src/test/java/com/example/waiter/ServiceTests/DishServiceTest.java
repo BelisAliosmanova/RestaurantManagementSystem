@@ -1,6 +1,7 @@
-package com.example.waiter;
+package com.example.waiter.ServiceTests;
 
 import com.example.waiter.Entities.Dish;
+import com.example.waiter.Enums.DishType;
 import com.example.waiter.Repositories.DishRepository;
 import com.example.waiter.Services.DishService;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,7 +54,8 @@ public class DishServiceTest {
         dish.setIngredients("cucumber, yogurt, garlic");
         dish.setId(1L);
         dish.setPrice(3);
-
+        dish.setType(DishType.SOUP);
+        System.out.println(dish.getName() + dish.getIngredients() + dish.getType() + dish.getId());
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(false);
         ModelAndView result = dishService.addDishSubmit(dish, bindingResult);

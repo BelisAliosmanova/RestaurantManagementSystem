@@ -1,5 +1,4 @@
-package com.example.waiter;
-import com.example.waiter.Entities.Order;
+package com.example.waiter.ServiceTests;
 import com.example.waiter.Entities.Staff;
 import com.example.waiter.Enums.Role;
 import com.example.waiter.Repositories.OrderRepository;
@@ -15,14 +14,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.text.ParseException;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -78,6 +73,8 @@ public class StaffServiceTest {
         Staff staff = new Staff();
         staff.setUsername("testuser");
         staff.setPassword("password");
+        staff.setId(1L);
+        staff.getId();
         staff.setRole(Role.WAITER);
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(false);
@@ -99,16 +96,5 @@ public class StaffServiceTest {
         assertEquals("/register", mav.getViewName());
         assertEquals(0, mav.getModel().size());
     }
-//    @Test
-//    public void testWaiterReference() throws ParseException {
-//        Model model = new ConcurrentModel();
-//        String viewName = staffService.waiterReference("date", model, "date", "2022-01-01", "2022-12-31");
-//
-//        assertEquals("/waiterReference", viewName);
-//        assertEquals("john", model.getAttribute("waiter"));
-//        assertTrue(model.getAttribute("waiterOrders") instanceof List<?>);
-//        List<?> waiterOrders = (List<?>) model.getAttribute("waiterOrders");
-//        assertFalse(waiterOrders.isEmpty());
-//        assertTrue(waiterOrders.get(0) instanceof Order);
-//    }
+
 }

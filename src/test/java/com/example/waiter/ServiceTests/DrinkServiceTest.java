@@ -1,6 +1,7 @@
-package com.example.waiter;
+package com.example.waiter.ServiceTests;
 
 import com.example.waiter.Entities.Drink;
+import com.example.waiter.Enums.DrinkType;
 import com.example.waiter.Repositories.DrinkRepository;
 import com.example.waiter.Services.DrinkService;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +40,8 @@ public class DrinkServiceTest {
         drink.setId(1L);
         drink.setPrice(5);
         drink.setPrice(-1);
-
+        drink.setType(DrinkType.ALCOHOLIC);
+        System.out.println(drink.getId() + drink.getName() + drink.getType());
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(true);
 

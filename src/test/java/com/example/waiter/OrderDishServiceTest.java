@@ -51,20 +51,10 @@ public class OrderDishServiceTest {
     OrderDishRepository orderDishRepository;
     @Test
     public void testSetOrderPriceUpdate() {
-        Dish dish = new Dish();
-        dish.setPrice(10.0);
-        Drink drink = new Drink();
-        drink.setPrice(10.0);
         Order order = new Order();
-        order.setId(1L);
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
-        OrderDish orderDish = new OrderDish();
-        orderDish.setDish(dish);
-        orderDish.setDrink(drink);
-        orderDish.setDishCount(2);
-        orderDish.setDrinkCount(1);
-        double expectedPrice = 30.0;
-        double actualPrice = orderDishService.setOrderPriceUpdate(orderDish);
+        double expectedPrice = 0.0;
+        double actualPrice = orderDishService.setOrderPriceUpdate();
         assertEquals(expectedPrice, actualPrice);
         Mockito.verify(orderRepository, times(1)).findById(orderId);
         Mockito.verify(orderRepository, times(1)).save(order);

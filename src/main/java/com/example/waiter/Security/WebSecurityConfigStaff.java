@@ -47,7 +47,7 @@ public class WebSecurityConfigStaff extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/homePageCook")
+                .mvcMatchers("/homePageCook", "/activeOrdersCook", "/cookReference")
                 .hasAnyAuthority("COOK")
                 .mvcMatchers("/homePageWaiter", "/addDish", "/addDrink", "/restaurantMenu", "/editDrink/*", "/editDish/*", "/activeOrders", "/waiterReference", "/addOrder", "/addOrderDish", "/editOrder/*", "/editOrderDetails", "/editOrderDish/*", "/orderSummary")
                 .hasAnyAuthority("WAITER")

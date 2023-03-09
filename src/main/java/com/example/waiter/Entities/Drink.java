@@ -12,13 +12,13 @@ public class Drink {
     @Column(name = "id", nullable = false)
     private Long id;
     @NotNull
-    @Size(min=3, max=50)
+    @Size(min=3, max=50, message = "The name of the drink must be between 2 to 50 letters!")
     private String name;
     @Enumerated(EnumType.STRING)
-    @NotNull
+    @NotNull(message = "The type of the drink cannot be blank!")
     private DrinkType type;
     @NotNull
-    @Min(1)
+    @Min(value = 1, message = "In our restaurant the minimum required price is 1!")
     private double price;
 
     public Long getId() {

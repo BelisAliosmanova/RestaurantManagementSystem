@@ -13,10 +13,10 @@ public class Staff {
     @Column(name = "id", nullable = false)
     private Long id;
     @NotNull
-    @Size(min=5, max=50)
+    @Size(min=5, max=50, message = "The username must be between 5 to 50 symbols!")
     private String username;
     @NotNull
-    @Pattern(regexp="^(?=.*[a-zA-Z])(?=.*\\d).{5,}$", message = ("At least 5 symbols, including numbers and letters!"))
+    @Pattern(regexp="^(?=.*[a-zA-Z])(?=.*\\d).{5,}$", message = ("The password must be least 5 symbols, including numbers and letters!"))
     private String password;
     @Enumerated(EnumType.STRING)
     @NotNull

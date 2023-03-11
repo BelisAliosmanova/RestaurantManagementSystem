@@ -46,7 +46,7 @@ public class DrinkServiceTest {
         when(bindingResult.hasErrors()).thenReturn(true);
 
         ModelAndView result = drinkService.addDrink(drink, bindingResult);
-        assertEquals("/addDrink", result.getViewName());
+        assertEquals("/restaurantMenu/addDrink", result.getViewName());
     }
     @Test
     void testAddDrinkSubmit_WithoutBindingErrors() {
@@ -124,6 +124,6 @@ public class DrinkServiceTest {
         Model model = new ExtendedModelMap();
         ModelAndView modelAndView = drinkService.updateDrink(drink, bindingResult, model);
         verify(drinkRepository, never()).save(drink);
-        assertEquals("/editDrink", modelAndView.getViewName());
+        assertEquals("/restaurantMenu/editDrink", modelAndView.getViewName());
     }
 }

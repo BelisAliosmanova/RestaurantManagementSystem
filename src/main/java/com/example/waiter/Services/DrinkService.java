@@ -18,7 +18,7 @@ public class DrinkService {
 
     public ModelAndView addDrink(Drink drink, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
-            return new ModelAndView("/addDrink");
+            return new ModelAndView("/restaurantMenu/addDrink");
         } else {
             drinkRepository.save(drink);
             return new ModelAndView("redirect:/homePageWaiter");
@@ -44,7 +44,7 @@ public class DrinkService {
 
     public ModelAndView updateDrink(Drink drink, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("/editDrink");
+            return new ModelAndView("/restaurantMenu/editDrink");
         } else {
             drinkRepository.save(drink);
             return new ModelAndView("redirect:/restaurantMenu");

@@ -163,7 +163,7 @@ public class OrderDishServiceTest {
         when(orderDishRepository.findById(1L)).thenReturn(Optional.of(orderDish));
         Model model = new ExtendedModelMap();
         ModelAndView result = orderDishService.deleteOrderDish(1L, model);
-        ModelAndView expected = new ModelAndView("/editOrderDetails");
+        ModelAndView expected = new ModelAndView("redirect:/editOrderDetails");
         assertEquals(expected.getViewName(), result.getViewName());
         assertEquals(expected.getModel(), result.getModel());
         verify(orderDishRepository, times(1)).deleteById(1L);

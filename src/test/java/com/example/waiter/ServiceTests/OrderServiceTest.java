@@ -236,7 +236,7 @@ public class OrderServiceTest {
         paidOrder.setStatus(OrderStatus.PAID);
         when(orderRepository.save(paidOrder)).thenReturn(paidOrder);
         modelAndView = orderService.updateOrder(paidOrder, bindingResult, model);
-        assertEquals("/orderSummary", modelAndView.getViewName());
+        assertEquals("/order/orderSummary", modelAndView.getViewName());
         assertNull(modelAndView.getModel().get("order"));
         assertNull(modelAndView.getModel().get("orderDishes"));
     }

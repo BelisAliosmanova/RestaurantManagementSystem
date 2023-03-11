@@ -46,11 +46,11 @@ public class OrderService {
     public ModelAndView addOrder(Order order, BindingResult bindingResult) {
         System.out.println(order.getOrderDate());
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("/addOrder");
+            return new ModelAndView("/order/addOrder");
         } else {
             Iterable<Order> allOrders = orderRepository.findAll();
             for (Order newOrder : allOrders) {
-                if ((order.getTableNum() == newOrder.getTableNum()) && (newOrder.getStatus().equals(OrderStatus.ACTIVE))) {
+                if ((order.getTableNum() == newOrder.getTableNum()) && !(newOrder.getStatus().equals(OrderStatus.PAID))) {
                     throw new NotFreeTableException("THIS TABLE IS NOT FREE NOW!");
                 }
             }
@@ -110,7 +110,7 @@ public class OrderService {
                 model.addAttribute("order", order);
                 model.addAttribute("orderDishes", orderDishes);
                 orderRepository.save(order);
-                return new ModelAndView("/orderSummary");
+                return new ModelAndView("/order/orderSummary");
             }
             orderRepository.save(order);
             return new ModelAndView("redirect:/activeOrders");

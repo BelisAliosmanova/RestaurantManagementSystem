@@ -90,7 +90,7 @@ public class OrderDishService {
         Optional<OrderDish> orderDish = orderDishRepository.findById(orderDishId);
         orderDish.get().getOrder().setTotalPrice(calculateTotalPriceDeleteMethod(orderDish.get()));
         orderDishRepository.deleteById(orderDishId);
-        return new ModelAndView("/editOrderDetails");
+        return new ModelAndView("redirect:/editOrderDetails");
     }
     public ModelAndView updateOrderDish(OrderDish orderDish, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

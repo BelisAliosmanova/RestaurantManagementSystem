@@ -80,7 +80,7 @@ public class StaffServiceTest {
         when(bindingResult.hasErrors()).thenReturn(false);
         ModelAndView mav = staffService.processRegister(staff, bindingResult);
         verify(staffRepository, times(1)).save(staff);
-        assertEquals("/menu", mav.getViewName());
+        assertEquals("redirect:/menu", mav.getViewName());
         assertEquals(0, mav.getModel().size());
     }
     @Test

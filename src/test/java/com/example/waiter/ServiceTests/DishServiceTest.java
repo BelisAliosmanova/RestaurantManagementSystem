@@ -40,12 +40,11 @@ public class DishServiceTest {
         dish.setId(1L);
         dish.setPrice(5);
 
-
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(true);
 
         ModelAndView result = dishService.addDishSubmit(dish, bindingResult);
-        assertEquals("/addDish", result.getViewName());
+        assertEquals("/restaurantMenu/addDish", result.getViewName());
     }
     @Test
     void testAddDishSubmit_WithoutBindingErrors() {
@@ -126,6 +125,6 @@ public class DishServiceTest {
         Model model = new ExtendedModelMap();
         ModelAndView modelAndView = dishService.updateDish(dish, bindingResult, model);
         verify(dishRepository, never()).save(dish);
-        assertEquals("/editDish", modelAndView.getViewName());
+        assertEquals("/restaurantMenu/editDish", modelAndView.getViewName());
     }
 }

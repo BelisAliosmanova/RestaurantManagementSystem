@@ -57,7 +57,7 @@ public class OrderDishServiceTest {
         Mockito.when(orderDishRepository.findById(orderDishId)).thenReturn(Optional.of(orderDish));
         Model model = new ExtendedModelMap();
         String viewName = orderDishService.addDishDrinkToExistingOrder(orderDishId, model);
-        assertEquals("/addOrderDish", viewName);
+        assertEquals("/order/addOrderDish", viewName);
         assertEquals(orderDish.getOrder().getId(), model.getAttribute("orderId"));
     }
 
@@ -85,7 +85,7 @@ public class OrderDishServiceTest {
         orderDish.setOrder(new Order());
         given(orderDishRepository.findById(orderDishId)).willReturn(Optional.of(orderDish));
         String viewName = orderDishService.editOrderDish(orderDishId, model);
-        assertEquals("/editOrderDish", viewName);
+        assertEquals("/order/editOrderDish", viewName);
         assertEquals(orderDish.getOrder().getId(), model.getAttribute("orderId"));
         assertEquals(dishRepository.findAll(), model.getAttribute("dishes"));
         assertEquals(drinkRepository.findAll(), model.getAttribute("drinks"));
@@ -98,7 +98,7 @@ public class OrderDishServiceTest {
         when(orderDishRepository.findAll()).thenReturn(orderDishList);
         Model model = new ExtendedModelMap();
         String viewName = orderDishService.editOrderDetails(model);
-        assertEquals("/editOrderDetails", viewName);
+        assertEquals("/order/editOrderDetails", viewName);
     }
 
     @Test
@@ -143,7 +143,7 @@ public class OrderDishServiceTest {
                 () -> assertEquals(orders, modelOrders),
                 () -> assertNotNull(order)
         );
-        assertEquals("/addOrderDish", result);
+        assertEquals("/order/addOrderDish", result);
     }
     @Test
     public void testDeleteOrderDish() {
@@ -163,7 +163,7 @@ public class OrderDishServiceTest {
         when(orderDishRepository.findById(1L)).thenReturn(Optional.of(orderDish));
         Model model = new ExtendedModelMap();
         ModelAndView result = orderDishService.deleteOrderDish(1L, model);
-        ModelAndView expected = new ModelAndView("redirect:/editOrderDetails");
+        ModelAndView expected = new ModelAndView("/editOrderDetails");
         assertEquals(expected.getViewName(), result.getViewName());
         assertEquals(expected.getModel(), result.getModel());
         verify(orderDishRepository, times(1)).deleteById(1L);

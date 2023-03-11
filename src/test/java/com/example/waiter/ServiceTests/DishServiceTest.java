@@ -66,7 +66,7 @@ public class DishServiceTest {
     void testAddDish() {
         Model model = new ExtendedModelMap();
         String viewName = dishService.addDish(model);
-        assertEquals("/addDish", viewName);
+        assertEquals("/restaurantMenu/addDish", viewName);
     }
     @Test
     void testDeleteDish() {
@@ -86,7 +86,7 @@ public class DishServiceTest {
         when(dishRepository.findById(dishId)).thenReturn(Optional.of(dish));
         Model model = new ExtendedModelMap();
         String viewName = dishService.editDish(dishId, model);
-        assertEquals("/editDish", viewName);
+        assertEquals("/restaurantMenu/editDish", viewName);
         assertEquals(dish, model.getAttribute("dish"));
         assertNull(model.getAttribute("errorMsg"));
     }
@@ -96,7 +96,7 @@ public class DishServiceTest {
         when(dishRepository.findById(dishId)).thenReturn(Optional.empty());
         Model model = new ExtendedModelMap();
         String viewName = dishService.editDish(dishId, model);
-        assertEquals("/editDish", viewName);
+        assertEquals("/restaurantMenu/editDish", viewName);
         assertEquals("Error!", model.getAttribute("dish"));
         assertEquals(" Not existing dish with id = " + dishId, model.getAttribute("errorMsg"));
     }

@@ -27,7 +27,7 @@ public class DrinkService {
 
     public String addDrink(Model model) {
         model.addAttribute("drink", new Drink());
-        return ("/addDrink");
+        return ("/restaurantMenu/addDrink");
     }
 
     public String editDrink(@PathVariable(name = "drinkId") Long drinkId, Model model) {
@@ -38,7 +38,7 @@ public class DrinkService {
             model.addAttribute("drink", "Error!");
             model.addAttribute("errorMsg", " Not existing drink with id = " + drinkId);
         }
-        return "/editDrink";
+        return "/restaurantMenu/editDrink";
     }
 
 

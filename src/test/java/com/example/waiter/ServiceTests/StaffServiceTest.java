@@ -42,7 +42,7 @@ public class StaffServiceTest {
     void cookReference() {
         Model model = new ExtendedModelMap();
         String viewName = staffService.cookReference(model);
-        assertEquals("/cookReference", viewName);
+        assertEquals("/reference/cookReference", viewName);
     }
 
     @Test
@@ -52,7 +52,7 @@ public class StaffServiceTest {
         Model model = mock(Model.class);
         String expectedUsername = "user";
         String viewName = new StaffService().homePageWaiter(model);
-        assertEquals("/homePageWaiter", viewName);
+        assertEquals("/home/homePageWaiter", viewName);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class StaffServiceTest {
         Model model = mock(Model.class);
         String expectedUsername = "user";
         String viewName = new StaffService().homePageCook(model);
-        assertEquals("/homePageCook", viewName);
+        assertEquals("/home/homePageCook", viewName);
     }
     @BeforeEach
     void setUp() {
@@ -80,7 +80,7 @@ public class StaffServiceTest {
         when(bindingResult.hasErrors()).thenReturn(false);
         ModelAndView mav = staffService.processRegister(staff, bindingResult);
         verify(staffRepository, times(1)).save(staff);
-        assertEquals("menu", mav.getViewName());
+        assertEquals("/menu", mav.getViewName());
         assertEquals(0, mav.getModel().size());
     }
     @Test

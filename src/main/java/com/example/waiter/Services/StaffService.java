@@ -38,7 +38,7 @@ public class StaffService {
             if ((staff.getRole().equals(Role.COOK)) || (staff.getRole().equals(Role.WAITER))) {
                 System.out.println(staff.getRole());
                 staffRepository.save(staff);
-                return new ModelAndView("menu");
+                return new ModelAndView("/menu");
             } else {
                 return new ModelAndView("/register");
             }
@@ -52,13 +52,13 @@ public class StaffService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         model.addAttribute("username", username);
-        return "/homePageWaiter";
+        return "/home/homePageWaiter";
     }
     public String homePageCook(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         model.addAttribute("username", username);
-        return "/homePageCook";
+        return "/home/homePageCook";
     }
     public String waiterReference(String sort, Model model, String sortParam,String startDate, String endDate) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -84,13 +84,13 @@ public class StaffService {
         System.out.println(endDate);
         model.addAttribute("waiter", auth.getName());
         model.addAttribute("waiterOrders", waiterOrders);
-        return "/waiterReference";
+        return "/reference/waiterReference";
     }
     private List<Object[]> getOrdersGroupedByOrderDate() {
         return orderRepository.groupByOrderDate();
     }
     public String cookReference(Model model){
         model.addAttribute("ordersGroupedByOrderDate", getOrdersGroupedByOrderDate());
-        return "/cookReference";
+        return "/reference/cookReference";
     }
 }

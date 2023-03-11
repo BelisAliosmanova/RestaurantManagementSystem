@@ -19,7 +19,7 @@ public class DishService {
 
     public ModelAndView addDishSubmit(Dish dish, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
-            return new ModelAndView("/addDish");
+            return new ModelAndView("/restaurantMenu/addDish");
         } else {
             dishRepository.save(dish);
             return new ModelAndView("redirect:/homePageWaiter");
@@ -28,7 +28,7 @@ public class DishService {
 
     public String addDish(Model model) {
         model.addAttribute("dish", new Dish());
-        return ("/addDish");
+        return "/restaurantMenu/addDish";
     }
 
     public String editDish(@PathVariable(name = "dishId") Long dishId, Model model) {
@@ -39,12 +39,12 @@ public class DishService {
             model.addAttribute("dish", "Error!");
             model.addAttribute("errorMsg", " Not existing dish with id = " + dishId);
         }
-        return "/editDish";
+        return "/restaurantMenu/editDish";
     }
 
     public ModelAndView updateDish(@Valid Dish dish, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("/editDish");
+            return new ModelAndView("/restaurantMenu/editDish");
         } else {
             dishRepository.save(dish);
             return new ModelAndView("redirect:/restaurantMenu");

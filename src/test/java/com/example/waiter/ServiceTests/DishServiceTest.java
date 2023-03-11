@@ -40,12 +40,11 @@ public class DishServiceTest {
         dish.setId(1L);
         dish.setPrice(5);
 
-
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(true);
 
         ModelAndView result = dishService.addDishSubmit(dish, bindingResult);
-        assertEquals("/addDish", result.getViewName());
+        assertEquals("/restaurantMenu/addDish", result.getViewName());
     }
     @Test
     void testAddDishSubmit_WithoutBindingErrors() {
@@ -66,7 +65,7 @@ public class DishServiceTest {
     void testAddDish() {
         Model model = new ExtendedModelMap();
         String viewName = dishService.addDish(model);
-        assertEquals("/addDish", viewName);
+        assertEquals("/restaurantMenu/addDish", viewName);
     }
     @Test
     void testDeleteDish() {
@@ -86,7 +85,7 @@ public class DishServiceTest {
         when(dishRepository.findById(dishId)).thenReturn(Optional.of(dish));
         Model model = new ExtendedModelMap();
         String viewName = dishService.editDish(dishId, model);
-        assertEquals("/editDish", viewName);
+        assertEquals("/restaurantMenu/editDish", viewName);
         assertEquals(dish, model.getAttribute("dish"));
         assertNull(model.getAttribute("errorMsg"));
     }
@@ -96,7 +95,7 @@ public class DishServiceTest {
         when(dishRepository.findById(dishId)).thenReturn(Optional.empty());
         Model model = new ExtendedModelMap();
         String viewName = dishService.editDish(dishId, model);
-        assertEquals("/editDish", viewName);
+        assertEquals("/restaurantMenu/editDish", viewName);
         assertEquals("Error!", model.getAttribute("dish"));
         assertEquals(" Not existing dish with id = " + dishId, model.getAttribute("errorMsg"));
     }
@@ -126,6 +125,6 @@ public class DishServiceTest {
         Model model = new ExtendedModelMap();
         ModelAndView modelAndView = dishService.updateDish(dish, bindingResult, model);
         verify(dishRepository, never()).save(dish);
-        assertEquals("/editDish", modelAndView.getViewName());
+        assertEquals("/restaurantMenu/editDish", modelAndView.getViewName());
     }
 }

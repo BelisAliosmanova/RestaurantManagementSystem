@@ -29,7 +29,7 @@ public class RestaurantMenuServiceTest {
 
         Model model = new ConcurrentModel();
         String viewName = restaurantMenuService.getAllDishes(model);
-        assertEquals("/restaurantMenu", viewName);
+        assertEquals("/restaurantMenu/restaurantMenu", viewName);
         assertTrue(model.containsAttribute("allDishes"));
         assertTrue(model.containsAttribute("allDrinks"));
         Iterable<Dish> expectedDishes = dishRepository.findAll();

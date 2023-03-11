@@ -20,6 +20,6 @@ public class RestaurantMenuService {
         model.addAttribute("allDishes", allDishes);
         Iterable<Drink> allDrinks = drinkRepository.findAll();
         model.addAttribute("allDrinks", allDrinks);
-        return "/restaurantMenu";
+        return "/restaurantMenu/restaurantMenu";
     }
 }

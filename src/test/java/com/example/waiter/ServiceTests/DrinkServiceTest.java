@@ -46,7 +46,7 @@ public class DrinkServiceTest {
         when(bindingResult.hasErrors()).thenReturn(true);
 
         ModelAndView result = drinkService.addDrink(drink, bindingResult);
-        assertEquals("/addDrink", result.getViewName());
+        assertEquals("/restaurantMenu/addDrink", result.getViewName());
     }
     @Test
     void testAddDrinkSubmit_WithoutBindingErrors() {
@@ -65,7 +65,7 @@ public class DrinkServiceTest {
     void testAddDrink() {
         Model model = new ExtendedModelMap();
         String viewName = drinkService.addDrink(model);
-        assertEquals("/addDrink", viewName);
+        assertEquals("/restaurantMenu/addDrink", viewName);
     }
     @Test
     void testDeleteDrink() {
@@ -84,7 +84,7 @@ public class DrinkServiceTest {
         when(drinkRepository.findById(drinkId)).thenReturn(Optional.of(drink));
         Model model = new ExtendedModelMap();
         String viewName = drinkService.editDrink(drinkId, model);
-        assertEquals("/editDrink", viewName);
+        assertEquals("/restaurantMenu/editDrink", viewName);
         assertEquals(drink, model.getAttribute("drink"));
         assertNull(model.getAttribute("errorMsg"));
     }
@@ -94,7 +94,7 @@ public class DrinkServiceTest {
         when(drinkRepository.findById(drinkId)).thenReturn(Optional.empty());
         Model model = new ExtendedModelMap();
         String viewName = drinkService.editDrink(drinkId, model);
-        assertEquals("/editDrink", viewName);
+        assertEquals("/restaurantMenu/editDrink", viewName);
         assertEquals("Error!", model.getAttribute("drink"));
         assertEquals(" Not existing drink with id = " + drinkId, model.getAttribute("errorMsg"));
     }
@@ -124,6 +124,6 @@ public class DrinkServiceTest {
         Model model = new ExtendedModelMap();
         ModelAndView modelAndView = drinkService.updateDrink(drink, bindingResult, model);
         verify(drinkRepository, never()).save(drink);
-        assertEquals("/editDrink", modelAndView.getViewName());
+        assertEquals("/restaurantMenu/editDrink", modelAndView.getViewName());
     }
 }

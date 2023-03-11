@@ -18,7 +18,7 @@ public class DrinkService {
 
     public ModelAndView addDrink(Drink drink, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
-            return new ModelAndView("/addDrink");
+            return new ModelAndView("/restaurantMenu/addDrink");
         } else {
             drinkRepository.save(drink);
             return new ModelAndView("redirect:/homePageWaiter");
@@ -27,7 +27,7 @@ public class DrinkService {
 
     public String addDrink(Model model) {
         model.addAttribute("drink", new Drink());
-        return ("/addDrink");
+        return ("/restaurantMenu/addDrink");
     }
 
     public String editDrink(@PathVariable(name = "drinkId") Long drinkId, Model model) {
@@ -38,13 +38,13 @@ public class DrinkService {
             model.addAttribute("drink", "Error!");
             model.addAttribute("errorMsg", " Not existing drink with id = " + drinkId);
         }
-        return "/editDrink";
+        return "/restaurantMenu/editDrink";
     }
 
 
     public ModelAndView updateDrink(Drink drink, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("/editDrink");
+            return new ModelAndView("/restaurantMenu/editDrink");
         } else {
             drinkRepository.save(drink);
             return new ModelAndView("redirect:/restaurantMenu");

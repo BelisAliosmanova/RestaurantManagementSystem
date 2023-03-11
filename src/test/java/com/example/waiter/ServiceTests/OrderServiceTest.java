@@ -58,8 +58,9 @@ public class OrderServiceTest {
     void testAddOrder() {
         Model model = new ExtendedModelMap();
         String viewName = orderService.addOrder(model);
-        assertEquals("/addOrder", viewName);
+        assertEquals("/order/addOrder", viewName);
     }
+
     @Test
     void updateOrderStatusCook_shouldReturnRedirectAndSaveOrder() {
         Order order = new Order();
@@ -69,6 +70,7 @@ public class OrderServiceTest {
         verify(orderRepository).save(order);
         assertEquals("redirect:/activeOrdersCook", result.getViewName());
     }
+
     @Test
     void updateOrderStatusCook_shouldReturnEditOrderStatusCookViewWhenBindingResultHasErrors() {
         Order order = new Order();
@@ -78,6 +80,7 @@ public class OrderServiceTest {
         ModelAndView result = orderService.updateOrderStatusCook(order, bindingResult, model);
         assertEquals("/editOrderStatusCook", result.getViewName());
     }
+
     @Test
     public void testShowOrderDetails() {
         List<OrderDish> orderDishes = new ArrayList<>();
@@ -95,6 +98,7 @@ public class OrderServiceTest {
         Object attributeValue = model1.get(expectedAttributeName);
         assertFalse(attributeValue instanceof List<?>);
     }
+
     @Test
     public void testShowOrderDetailsByDate() throws ParseException, ParseException {
         Date testDate = new Date(1L);
@@ -106,11 +110,12 @@ public class OrderServiceTest {
         assertTrue(model.containsAttribute("activeOrders"));
         List<OrderDish> activeOrders = (List<OrderDish>) model.getAttribute("activeOrders");
         assertEquals(orderDishes, activeOrders);
-        assertEquals("/orderDetailsCook", viewName);
+        assertEquals("/order/orderDetailsCook", viewName);
     }
+
     @Test
     void testActiveOrdersCook() {
-        Order order1=new Order();
+        Order order1 = new Order();
         order1.setId(1L);
         order1.setStatus(OrderStatus.ACTIVE);
         order1.setTotalPrice(50);
@@ -122,7 +127,7 @@ public class OrderServiceTest {
         order1.getStaff();
         Date date = new Date(1);
         order1.setOrderDate(date);
-        Order order2=new Order();
+        Order order2 = new Order();
         order2.setId(2L);
         order2.setStatus(OrderStatus.ACTIVE);
         order2.setTotalPrice(40);
@@ -132,9 +137,9 @@ public class OrderServiceTest {
         when(orderRepository.findAll()).thenReturn(allOrders);
         Model model = new ExtendedModelMap();
         String viewName = orderService.activeOrdersCook(model);
-        assertEquals(viewName,"/activeOrdersCook");
-  List<Order> activeOrdersCook = (List<Order>) model.getAttribute("activeOrdersCook");
-assertEquals(activeOrdersCook.size(),2);
+        assertEquals(viewName, "/order/activeOrdersCook");
+        List<Order> activeOrdersCook = (List<Order>) model.getAttribute("activeOrdersCook");
+        assertEquals(activeOrdersCook.size(), 2);
 
     }
 
@@ -147,6 +152,7 @@ assertEquals(activeOrdersCook.size(),2);
         assertEquals("error", viewName);
         assertEquals("Table is not free", model.getAttribute("error"));
     }
+
     @Test
     public void testEditOrderWithExistingOrder() {
         Long orderId = 123L;
@@ -154,9 +160,10 @@ assertEquals(activeOrdersCook.size(),2);
         order.setId(orderId);
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
         String viewName = orderService.editOrder(orderId, model, principal);
-        assertEquals("/editOrder", viewName);
+        assertEquals("/order/editOrder", viewName);
         verify(model, times(1)).addAttribute("order", order);
     }
+
     @Test
     public void testEditOrderWithNonExistingOrder() {
         Long orderId = 456L;
@@ -168,11 +175,12 @@ assertEquals(activeOrdersCook.size(),2);
         staff.setRole(Role.COOK);
         when(staffRepository.findByUsername(username)).thenReturn(staff);
         String viewName = orderService.editOrder(orderId, model, principal);
-        assertEquals("/editOrder", viewName);
+        assertEquals("/order/editOrder", viewName);
         verify(model, times(1)).addAttribute("staffRole", Role.COOK);
         verify(model, times(1)).addAttribute("order", "Error!");
         verify(model, times(1)).addAttribute("errorMsg", "Not existing order with id: " + orderId);
     }
+
     @Test
     public void testEditOrderStatusCookWithExistingOrder() {
         Long orderId = 123L;
@@ -181,21 +189,23 @@ assertEquals(activeOrdersCook.size(),2);
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
         Model model = new ExtendedModelMap();
         String viewName = orderService.editOrderStatusCook(orderId, model);
-        assertEquals("/editOrderStatusCook", viewName);
+        assertEquals("/order/editOrderStatusCook", viewName);
         Order modelOrder = (Order) model.getAttribute("order");
         assertNotNull(modelOrder);
         assertEquals(orderId, modelOrder.getId());
     }
+
     @Test
     public void testEditOrderStatusCookWithNonExistingOrder() {
         Long orderId = 999L;
         when(orderRepository.findById(orderId)).thenReturn(Optional.empty());
         Model model = new ExtendedModelMap();
         String viewName = orderService.editOrderStatusCook(orderId, model);
-        assertEquals("/editOrderStatusCook", viewName);
+        assertEquals("/order/editOrderStatusCook", viewName);
         assertEquals("Error!", model.getAttribute("order"));
         assertEquals("Not existing order with id: " + orderId, model.getAttribute("errorMsg"));
     }
+
     @Test
     public void testUpdateOrder() {
         Order order = new Order();
@@ -226,10 +236,11 @@ assertEquals(activeOrdersCook.size(),2);
         paidOrder.setStatus(OrderStatus.PAID);
         when(orderRepository.save(paidOrder)).thenReturn(paidOrder);
         modelAndView = orderService.updateOrder(paidOrder, bindingResult, model);
-        assertEquals("/orderSummary", modelAndView.getViewName());
+        assertEquals("/order/orderSummary", modelAndView.getViewName());
         assertNull(modelAndView.getModel().get("order"));
         assertNull(modelAndView.getModel().get("orderDishes"));
     }
+
     @Test
     void testAddOrderSubmit() {
         Staff staff = new Staff();
@@ -253,6 +264,7 @@ assertEquals(activeOrdersCook.size(),2);
         verify(orderRepository).save(order);
         assertEquals("redirect:/addOrderDish", mav.getViewName());
     }
+
     @Test
     public void testActiveOrders() {
         Order order1 = new Order();
@@ -267,6 +279,6 @@ assertEquals(activeOrdersCook.size(),2);
         order5.setStatus(OrderStatus.PAID);
         when(orderRepository.findAll()).thenReturn(Arrays.asList(order1, order2, order3, order4, order5));
         String viewName = orderService.activeOrders(model);
-        assertThat(viewName).isEqualTo("/activeOrders");
+        assertThat(viewName).isEqualTo("/order/activeOrders");
     }
 }

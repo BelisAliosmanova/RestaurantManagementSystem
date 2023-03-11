@@ -2,6 +2,7 @@ package com.example.waiter.Services;
 
 import com.example.waiter.Entities.Order;
 import com.example.waiter.Entities.OrderDish;
+import com.example.waiter.Enums.OrderStatus;
 import com.example.waiter.Exceptions.NoOrderDishException;
 import com.example.waiter.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -35,12 +38,12 @@ public class OrderDishService {
         model.addAttribute("orders", orderRepository.findAll());
         model.addAttribute("orderId", orderRepository.findFirstByOrderByIdDesc());
         model.addAttribute("order", new Order());
-        return ("/addOrderDish");
+        return "/order/addOrderDish";
     }
     public String addDishDrinkToExistingOrder(Long orderDishId, Model model) {
         Optional<OrderDish> optionalOrderDish = orderDishRepository.findById(orderDishId);
         model.addAttribute("orderId", optionalOrderDish.get().getOrder().getId());
-        return "/addOrderDish";
+        return "/order/addOrderDish";
     }
     public ModelAndView addOrderDish(OrderDish orderDish, BindingResult bindingResult, Model model, boolean addAnotherDish) {
         if (orderDish.getDrink() == null && orderDish.getDish() == null) {
@@ -50,7 +53,7 @@ public class OrderDishService {
             model.addAttribute("dishes", dishRepository.findAll());
             model.addAttribute("drinks", drinkRepository.findAll());
             model.addAttribute("orders", orderRepository.findAll());
-            return new ModelAndView("/addOrderDish");
+            return new ModelAndView("redirect:/addOrderDish");
         } else if (!addAnotherDish) {
             orderDish.setOrder(orderRepository.findFirstByOrderByIdDesc());
             orderDishRepository.save(orderDish);
@@ -66,16 +69,21 @@ public class OrderDishService {
             return new ModelAndView("redirect:/addOrderDish");
         }
     }
+    public String editOrderDetails(Model model) {
+        List<OrderDish> orderDishLis = new ArrayList<>();
+        for (OrderDish orderDish : orderDishRepository.findAll()) {
+            if((orderDish.getOrder().getStatus() == OrderStatus.ACTIVE) || (orderDish.getOrder().getStatus() == OrderStatus.PREPARING)){
+                orderDishLis.add(orderDish);
+            }
+        }
+        model.addAttribute("activeOrders", orderDishLis);
+        return "/order/editOrderDetails";
+    }
     @ExceptionHandler(NoOrderDishException.class)
     @GetMapping("/error")
     public String handleNoOrderDishException(NoOrderDishException ex, Model model) {
         model.addAttribute("error", ex.getMessage());
         return "error";
-    }
-
-    public String editOrderDetails(Model model) {
-        model.addAttribute("activeOrders", orderDishRepository.findAll());
-        return "/editOrderDetails";
     }
 
     public ModelAndView deleteOrderDish(Long orderDishId, Model model) {
@@ -127,7 +135,7 @@ public class OrderDishService {
             model.addAttribute("orderDish", "Error!");
             model.addAttribute("errorMsg", "Not existing order with id: " + orderDishId);
         }
-        return "/editOrderDish";
+        return "/order/editOrderDish";
     }
 
     public void deleteNullOrders() {

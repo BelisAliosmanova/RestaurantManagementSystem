@@ -40,19 +40,18 @@ public class OrderService {
 
     public String addOrder(Model model) {
         model.addAttribute("order", new Order());
-        return ("/addOrder");
+        return ("/order/addOrder");
     }
 
     public ModelAndView addOrder(Order order, BindingResult bindingResult) {
         System.out.println(order.getOrderDate());
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("/addOrder");
+            return new ModelAndView("/order/addOrder");
         } else {
             Iterable<Order> allOrders = orderRepository.findAll();
             for (Order newOrder : allOrders) {
-                if ((order.getTableNum() == newOrder.getTableNum()) && (newOrder.getStatus().equals(OrderStatus.ACTIVE))) {
+                if ((order.getTableNum() == newOrder.getTableNum()) && !(newOrder.getStatus().equals(OrderStatus.PAID))) {
                     throw new NotFreeTableException("THIS TABLE IS NOT FREE NOW!");
-
                 }
             }
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -73,7 +72,7 @@ public class OrderService {
             }
         }
         model.addAttribute("activeOrders", activeOrders);
-        return "/activeOrders";
+        return "/order/activeOrders";
     }
 
     @ExceptionHandler(NotFreeTableException.class)
@@ -94,13 +93,13 @@ public class OrderService {
             model.addAttribute("order", "Error!");
             model.addAttribute("errorMsg", "Not existing order with id: " + orderId);
         }
-        return "/editOrder";
+        return "/order/editOrder";
     }
 
     public ModelAndView updateOrder(Order order, BindingResult bindingResult, Model model) {
         List<OrderDish> orderDishes = new ArrayList<>();
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("/editOrder");
+            return new ModelAndView("/order/editOrder");
         } else {
             if (order.getStatus().equals(OrderStatus.PAID)) {
                 for (OrderDish orderDish : orderDishRepository.findAll()) {
@@ -111,7 +110,7 @@ public class OrderService {
                 model.addAttribute("order", order);
                 model.addAttribute("orderDishes", orderDishes);
                 orderRepository.save(order);
-                return new ModelAndView("/orderSummary");
+                return new ModelAndView("/order/orderSummary");
             }
             orderRepository.save(order);
             return new ModelAndView("redirect:/activeOrders");
@@ -127,7 +126,7 @@ public class OrderService {
             model.addAttribute("order", "Error!");
             model.addAttribute("errorMsg", "Not existing order with id: " + orderId);
         }
-        return "/editOrderStatusCook";
+        return "/order/editOrderStatusCook";
     }
 
     public ModelAndView updateOrderStatusCook(Order order, BindingResult bindingResult, Model model) {
@@ -150,17 +149,17 @@ public class OrderService {
             }
         }
         model.addAttribute("activeOrdersCook", activeOrdersCook);
-        return "/activeOrdersCook";
+        return "/order/activeOrdersCook";
     }
 
     public String showOrderDetails(Long orderId, Model model) {
         List<OrderDish> activeOrders= orderDishRepository.findByOrderId(orderId);
                 model.addAttribute("activeOrders",activeOrders);
-        return   "/orderDetailsCook";
+        return "/order/orderDetailsCook";
     }
     public String showOrderDetailsByDate(Date orderDate, Model model) throws ParseException {
      List<OrderDish> activeOrders= orderDishRepository.findByOrderDate(orderDate);
         model.addAttribute("activeOrders",activeOrders);
-        return   "/orderDetailsCook";
+        return "/order/orderDetailsCook";
     }
 }

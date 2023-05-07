@@ -11,7 +11,7 @@ public class OrderScheduler {
     @Autowired
     private OrderRepository orderRepository;
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 1800000)
     public void deleteNullOrders() {
         Iterable<Order> orders = orderRepository.findAll();
         for (Order order : orders) {

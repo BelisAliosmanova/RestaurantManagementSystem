@@ -42,10 +42,14 @@ public class MvcConfig  implements WebMvcConfigurer {
         registry.jsp("/WEB-INF/views/", ".jsp");
     }
 
-    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/");
+                .addResourceLocations("/resources/")
+                .addResourceLocations("/resources/static/")
+                .addResourceLocations("/resources/static/css/")
+                .addResourceLocations("/resources/static/pictures/")
+                .addResourceLocations("/resources/templates/")
+                .addResourceLocations("/resources/templates/home/");
     }
     @Bean
     public ViewResolver viewResolver() {

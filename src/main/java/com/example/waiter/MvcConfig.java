@@ -2,6 +2,7 @@ package com.example.waiter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -21,12 +22,12 @@ public class MvcConfig  implements WebMvcConfigurer {
         return templateEngine;
     }
 
-    @Bean
-    public ThymeleafViewResolver viewResolver() {
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-        viewResolver.setTemplateEngine(templateEngine());
-        return viewResolver;
-    }
+//    @Bean
+//    public ThymeleafViewResolver viewResolver() {
+//        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+//        viewResolver.setTemplateEngine(templateEngine());
+//        return viewResolver;
+//    }
 
     private ClassLoaderTemplateResolver thymeleafTemplateResolver() {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
@@ -45,6 +46,20 @@ public class MvcConfig  implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**")
                 .addResourceLocations("/resources/");
+    }
+    @Bean
+    public ViewResolver viewResolver() {
+        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+        templateResolver.setTemplateMode("XHTML");
+        templateResolver.setPrefix("views/");
+        templateResolver.setSuffix(".html");
+
+        SpringTemplateEngine engine = new SpringTemplateEngine();
+        engine.setTemplateResolver(templateResolver);
+
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(engine);
+        return viewResolver;
     }
 
 }

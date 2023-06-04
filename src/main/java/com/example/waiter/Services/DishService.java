@@ -60,12 +60,14 @@ public class DishService {
 
     public ModelAndView deleteDish(@PathVariable(name = "dishId") Long dishId, Model model) {
         List<OrderDish> orderDishList = orderDishRepository.findAll();
-        for (OrderDish orderDish : orderDishList){
-            if(orderDish.getDish().getId().equals(dishId) && !(orderDish.getOrder().getStatus().equals(OrderStatus.PAID))){
-                model.addAttribute("dish", "Error!");
-                model.addAttribute("errorMsg", " YOU CANNOT DELETE THAT DISH IT IS ORDERED! YOU CAN DELETE IR WHEN THE ORDER IS PAID");
-            } else if(orderDish.getDish().getId().equals(dishId)){
-                orderDishRepository.deleteById(orderDish.getId());
+        for (OrderDish orderDish : orderDishList) {
+            if (orderDish.getDish() != null) {
+                if (orderDish.getDish().getId().equals(dishId) && !(orderDish.getOrder().getStatus().equals(OrderStatus.PAID))) {
+                    model.addAttribute("dish", "Error!");
+                    model.addAttribute("errorMsg", " YOU CANNOT DELETE THAT DISH IT IS ORDERED! YOU CAN DELETE IR WHEN THE ORDER IS PAID");
+                } else if (orderDish.getDish().getId().equals(dishId)) {
+                    orderDishRepository.deleteById(orderDish.getId());
+                }
             }
         }
         dishRepository.deleteById(dishId);

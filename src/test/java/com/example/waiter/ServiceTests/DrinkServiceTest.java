@@ -1,8 +1,10 @@
 package com.example.waiter.ServiceTests;
 
 import com.example.waiter.Entities.Drink;
+import com.example.waiter.Entities.OrderDish;
 import com.example.waiter.Enums.DrinkType;
 import com.example.waiter.Repositories.DrinkRepository;
+import com.example.waiter.Repositories.OrderDishRepository;
 import com.example.waiter.Services.DrinkService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,6 +33,8 @@ public class DrinkServiceTest {
     DrinkService drinkService;
     @Mock
     DrinkRepository drinkRepository;
+    @Mock
+    OrderDishRepository orderDishRepository;
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -70,7 +76,10 @@ public class DrinkServiceTest {
     @Test
     void testDeleteDrink() {
         Long id = 20L;
-        ModelAndView result = drinkService.deleteDrink(id);
+        Model model = new ExtendedModelMap();
+        List<OrderDish> orderDishList = new ArrayList<>();
+        when(orderDishRepository.findAll()).thenReturn(orderDishList);
+        ModelAndView result = drinkService.deleteDrink(id, model);
         verify(drinkRepository, times(1)).deleteById(id);
     }
     @Test

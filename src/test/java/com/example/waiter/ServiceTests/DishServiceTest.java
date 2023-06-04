@@ -1,8 +1,10 @@
 package com.example.waiter.ServiceTests;
 
 import com.example.waiter.Entities.Dish;
+import com.example.waiter.Entities.OrderDish;
 import com.example.waiter.Enums.DishType;
 import com.example.waiter.Repositories.DishRepository;
+import com.example.waiter.Repositories.OrderDishRepository;
 import com.example.waiter.Services.DishService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,6 +32,8 @@ public class DishServiceTest {
     DishService dishService;
     @Mock
     DishRepository dishRepository;
+    @Mock
+    OrderDishRepository orderDishRepository;
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -70,7 +76,10 @@ public class DishServiceTest {
     @Test
     void testDeleteDish() {
         Long id = 20L;
-        ModelAndView result = dishService.deleteDish(id);
+        Model model = new ExtendedModelMap();
+        List<OrderDish> orderDishList = new ArrayList<>();
+        when(orderDishRepository.findAll()).thenReturn(orderDishList);
+        ModelAndView result = dishService.deleteDish(id, model);
         verify(dishRepository, times(1)).deleteById(id);
     }
     @Test

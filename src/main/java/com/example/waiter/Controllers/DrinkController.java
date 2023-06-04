@@ -36,7 +36,7 @@ public class DrinkController {
         return drinkService.updateDrink(drink, bindingResult, model);
     }
     @PostMapping("/deleteDrink/{drinkId}")
-    public ModelAndView deleteDrink(@PathVariable(name = "drinkId") Long drinkId) {
-        return drinkService.deleteDrink(drinkId);
+    public ModelAndView deleteDrink(@PathVariable(name = "drinkId") Long drinkId, Model model) {
+        return drinkService.deleteDrink(drinkId, model);
     }
 }

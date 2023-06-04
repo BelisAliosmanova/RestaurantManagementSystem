@@ -57,11 +57,12 @@ public class DrinkService {
         }
     }
 
-    public ModelAndView deleteDrink(@PathVariable(name = "drinkId") Long drinkId) {
+    public ModelAndView deleteDrink(@PathVariable(name = "drinkId") Long drinkId, Model model) {
         List<OrderDish> orderDishList = orderDishRepository.findAll();
         for (OrderDish orderDish : orderDishList){
-            if(orderDish.getDish().getId().equals(drinkId) && !(orderDish.getOrder().getStatus().equals(OrderStatus.PAID))){
-                throw new CantDeleteDishOrDrinkException("YOU CANNOT DELETE THAT DRINK IT IS ORDERED! YOU CAN DELETE IR WHEN THE ORDER IS PAID");
+            if(orderDish.getDrink().getId().equals(drinkId) && !(orderDish.getOrder().getStatus().equals(OrderStatus.PAID))){
+                model.addAttribute("drink", "Error!");
+                model.addAttribute("errorMsg", " YOU CANNOT DELETE THAT DRINK IT IS ORDERED! YOU CAN DELETE IR WHEN THE ORDER IS PAID");
             } else if(orderDish.getDish().getId().equals(drinkId)){
                 orderDishRepository.deleteById(orderDish.getId());
             }

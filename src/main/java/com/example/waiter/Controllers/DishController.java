@@ -36,7 +36,7 @@ public class DishController {
         return dishService.updateDish(dish, bindingResult, model);
     }
     @PostMapping("/deleteDish/{dishId}")
-    public ModelAndView deleteDish(@PathVariable(name = "dishId") Long dishId) {
-        return dishService.deleteDish(dishId);
+    public ModelAndView deleteDish(@PathVariable(name = "dishId") Long dishId, Model model) {
+        return dishService.deleteDish(dishId, model);
     }
 }

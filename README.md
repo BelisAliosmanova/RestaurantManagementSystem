@@ -1,5 +1,5 @@
 # RestaurantManagementSystem
-### Is you want to take a look: https://restaurantmanagementsystem.up.railway.app/menu
+### If you want to take a look: https://restaurantmanagementsystem.up.railway.app/menu
 Every good restaurant has an ordering system. It serves not only to automate the work of the waiters, but also of the kitchen. The waiter should be able to create an order for a certain table, and the kitchen should change its status to "cooking", "prepared", respectively the waiter should be able to change it to "served". The waiter can remove the bill for the given table, which changes the status to "paid" and frees the table. Each order consists of dishes and drinks from the menu. The waiter can enter and change the menu with names, prices and type.
 
 The project must be able to:
